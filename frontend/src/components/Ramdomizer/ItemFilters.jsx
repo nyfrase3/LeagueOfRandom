@@ -36,7 +36,12 @@ const ItemFilters = ({boots, setBoots, mainStat, setMainStat, none, setNone, all
     setAll(allLocal)
     setNone(noneLocal)
 
-  }, [subStats])
+    if (mainStat == 'ALL') {
+      handleAllChecked()
+    }
+
+
+  }, [subStats.health, subStats.percentattackspeed, subStats.mana, subStats.abilityhaste, subStats.armor, subStats.magicresist, subStats.attackdamage, subStats.abilitypower])
 
   const style = {
     "& label.Mui-focused": {
@@ -54,11 +59,17 @@ const ItemFilters = ({boots, setBoots, mainStat, setMainStat, none, setNone, all
   
   const handleMainStatChange = (e) => {
     setMainStat(e.target.value); 
-    setSubStats({
-      ...subStats,
-      [e.target.value]: true,
-    })
 
+    if (e.target.value == 'ALL') {
+      handleAllChecked();
+    } else {
+      setSubStats({
+        ...subStats,
+        [e.target.value]: true,
+      })
+  
+    }
+  
   }
 
   const handleSubStatChange = (e) => {

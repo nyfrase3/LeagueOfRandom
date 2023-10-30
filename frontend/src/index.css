@@ -6,12 +6,21 @@
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: 	#572d6a;
+  margin: 0 auto !important;
+  padding: 0 !important;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+ 
+}
+
+
+#root {
+  width: 100vw;
+
 }
 
 a {
@@ -25,10 +34,10 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
   padding-top: 1rem;
   min-width: 320px;
   min-height: 100vh;
+  padding: 0;
 }
 
 h1 {
@@ -49,6 +58,7 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
   width: 10rem;
+  outline: none !important;
 }
 button:hover {
   border-color: #bf922a;
@@ -90,7 +100,7 @@ button:focus-visible {
 }
 
 .page {
-  padding-top: 100px;
+  padding-top: 17px;
   height: fit-content;
   width: 100vw;
 }
@@ -111,19 +121,29 @@ img {
 .outer-cont {
   display: flex;
   align-items: flex-start;
-  justify-content: space-around;
-  gap: 3rem;
-  padding: 1rem 0 3rem 0;
+  justify-content:space-around;
+  gap: 2rem;
+  padding: 1rem 3rem 3rem 3rem;
+  flex-wrap: wrap;
 }
 
 .champ-cont {
-  min-width: 50%;
+  min-width: 40%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 1rem;
+  margin-top: -33px;
  
 }
-
+.build-cont {
+  width: fit-content;
+}
+.build-cont h3 {
+  width: fit-content;
+  margin: 0 auto;
+  padding-bottom: 21px;
+}
 
 .champion-info h3 {
   font-weight: 900;
@@ -153,7 +173,7 @@ img {
 .MuiBox-root {
   display: flex;
   flex-direction: column;
-  padding: 0.5rem;
+  /* padding: 0.5rem; */
   gap: 1rem;
 
 }
@@ -166,7 +186,7 @@ img {
 .filters {
   display: flex;
   flex-direction: column;
-  gap: 5rem;
+  gap: 2.75rem;
 }
 
  h5 {
@@ -175,11 +195,16 @@ img {
   padding: 5px 0;
 }
 
+.h5 {
+  margin-bottom: 0px;
+}
+
 .stats-cont {
   flex-basis: 25%;
   background-color: rgb(12, 12, 12);
   min-height: 226px;
 }
+
 
 .stats-flex {
   display: flex;
@@ -190,20 +215,23 @@ img {
   padding: 1rem;
 }
 
-.stats-flex  > * {
-  flex-grow: 33%;
+.stats-flex  > div {
+  flex: 1 1 45%;
   background-color: #302f2f;
   padding: 2px 4px;
-  border-radius: 8px;
-
+  border-radius: 4px;
+  max-width: 269px;
+  
 } 
 
-.build-flex > * {
-  flex: 1 1 30%;
+
+.item {
+  position: relative;
 }
 
 .default {
   width: 500px;
+  padding-top: 2rem;
 }
 
 .default p {
@@ -220,27 +248,30 @@ img {
   background-color: rgb(12, 12, 12);
   padding: 1rem;
   border-radius: 8px;
+  min-width: fit-content;
+  margin-bottom: 4px;
  
 }
 
 .build-flex > * {
-  flex-basis: 30%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
+  flex-basis: 137px;
+
   outline: 1px solid #302f2f; 
   background-color: rgb(3, 3, 3);
+  height: 137px;
 
 }
 
-.item:first-child {
-  outline: 1px solid #bf922a !important;
-}
+tr:hover {
+  cursor: pointer;
+} 
+
 
 .build-flex h6 {
   background-color: #302f2f;
   width: 100%;
+  text-wrap: nowrap;
+  padding: 3px 0;
   margin: 0;
 }
 
@@ -252,6 +283,196 @@ img {
 }
 
 
+.tooltip {
+  position: absolute;
+  background-color: #0b0b0b;
+  opacity: 0.8;
+  right: -80px;
+  top: -35px;
+  padding: 5px;
+  z-index: 999;
+  width: 100%;
+  border-radius: 8px;
+}
+.tooltip span {
+  font-size: 0.9rem;
+}
+
+.tool-name {
+  color:#bf922a;
+  font-weight: 800;
+}
+
+.tool-cost {
+  margin-top: 1em;
+}
+
 /* * {
   outline: 3px solid red;
 } */
+
+.nav {
+  margin-top: 83px;
+  background-color:#1a1a1a;
+  display: flex;
+  justify-content: space-evenly;
+  padding: 5px 0;
+  width: 100%;
+}
+
+.middle-flex {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  flex-grow: 0;
+  max-width: 230px;
+}
+.name-select {
+
+  background-color: rgb(12, 12, 12);
+  max-width: fit-content;
+  align-self: flex-end;
+  margin-top: 2rem;
+}
+
+.data-table{
+  height: 600px;
+  min-height: 600px;
+  overflow: scroll;
+  background-color: #1a1a1a !important;
+}
+
+table {
+  height: max-content;
+  width: max-content;
+}
+
+
+.MuiTableRow-root * {
+  /* background-color:#302f2f !important; */
+  font-size: 13px !important;
+}
+
+.MuiTableRow-hover:hover {
+  background-color: rgb(65, 63, 54) !important;
+}
+
+tr {
+  overflow-x: scroll;
+}
+ th {
+  text-wrap: nowrap;
+  max-height: 20px !important;
+  color: #f9f9f9 !important;
+  font-size: 12px !important;
+  text-align: center !important;
+  outline: 1px solid #f9f9f9;
+  min-width: 70px;
+  min-height: 70px;
+  padding: 0.75rem !important;
+}
+
+
+.table-header * {
+  background-color: #1a1a1a !important;
+  font-weight: 600 !important;
+}
+
+
+.table-img {
+  width: 35px !important;
+  height: 35px !important;
+  overflow: hidden;
+
+}
+
+.css-1yhpg23-MuiTableCell-root {
+  padding: 7px;
+}
+
+
+.radio-group {
+flex-direction: row !important;
+}
+
+.sort-arrow {
+  position: absolute;
+  background-color: transparent !important;
+  right: 10%;
+
+}
+
+.order-random {
+  text-wrap: wrap !important;
+  min-width: 65px;
+}
+
+.filters-flex {
+  display: flex;
+  justify-content: flex-start;
+  gap: 2rem;
+  padding: 0.5rem 0;
+  
+}
+
+.filters-flex > * {
+  background-color: #302f2f;
+  padding: 0.5rem 1rem 0rem 1rem;
+  border-radius: 8px;
+  box-shadow: rgba(59, 59, 58, 0.24) 0px 3px 8px;
+}
+
+
+.empty-row * {
+  font-size: 3rem !important;
+  
+}
+.empty-row {
+  position: relative !important;
+}
+
+
+.empty-row td {
+  padding-left: 3rem !important;
+  background-image: url('../public/champions/troll.jpg') !important;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.radio-cont {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-bottom: 0;
+
+}
+.builder-container {
+  padding: 0.3rem 0.3rem 7rem;
+}
+
+.builder-container > * {
+  padding: 0.7rem 1.5rem;
+}
+
+.none-selected {
+  height: 100px;
+  text-align: center;
+}
+
+.img-cont {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 115px;
+}
+
+.cancel {
+  color: rgb(203, 20, 20);
+}
+
+.filters-flex {
+  /* background-color: red; */
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
