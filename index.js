@@ -116,6 +116,7 @@ app.post('/randomItems/:boots/:mainStat', async (req, res, next) => {
 
 app.get('/allItems', async (req, res, next) => {
   const results = await db.query('SELECT * FROM items');
+  console.log(results.rows[0])
   const data = {};
   results.rows.map( row => data[row.id] = row  );
 
@@ -124,7 +125,7 @@ app.get('/allItems', async (req, res, next) => {
   bootIds.rows.map(id => data[id.id]['boots'] = true);
   mythicIds.rows.map(id =>  data[id.id]['mythic'] = true);
 
-  res.send(data);
+  res.send(Object.values(data).sort((a, b) => (a.name > b.name ? 1 : -1)));
 })
 
 

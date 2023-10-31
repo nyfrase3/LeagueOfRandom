@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import {Table, TableRow, TableBody, TableCell, TableContainer, TableHead, Paper } from '@mui/material'
 import {statsMap} from '../../stats'
 import AddItemMenu from './AddItemMenu'
@@ -10,20 +10,54 @@ const grandiantBot = 'linear-gradient( 0deg, hsl(42deg 64% 46%) 0%, hsl(42deg 59
 const centerGradiant = 'radial-gradient(circle, rgba(26,26,26,0.8653920807453416) 79%, rgba(207,158,45,1) 98%)';
 
 
-const ItemsTable = ({items, handleSortChange, sortBy, tableRef}) => {
+const ItemsTable = ({items, handleSortChange, sortBy, tableRef, currentBuild, setCurrentBuild, setError}) => {
 
     const [open, setOpen] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
+    const selectedItemRef = useRef();
+    const firstEmptySlot = useRef(0);
+
+    const addItemIfShould = (item) => {
+
+     
+        const buildCopy = [...currentBuild.slice(0, firstEmptySlot.current), selectedItemRef.current, ...currentBuild.slice(firstEmptySlot.current + 1)];
+        setCurrentBuild(buildCopy);
+        setError('')
+        window.scrollTo(0, 100)
+      
+    }
 
 
-    const handleRowClick = (e, id) => {
+    const handleRowClick = (e, item) => {
+ 
         e.stopPropagation();
         if (open) {
             return;
         } else {
-            setSelectedId(id);
+
+          firstEmptySlot.current = currentBuild.findIndex(i => i.id <= 0);
+          if (firstEmptySlot == -1) {//THERE ARE NO EMPTY SLOTS: DO SOMETHING ELSE 
+            setError("You ran out of space!");
+            window.scrollTo(0, 100)
+            return;
+          }
+          if (currentBuild.find( i => item.id == i.id)) { //if the item is already in the build
+            console.log('This item is already added to this build.');
+            setError('This item is already added to this build.')
+            window.scrollTo(0, 100)
+            return;
+            
+          } if (item.hasOwnProperty('boots')) { //if the item we are trying to add is a boot, we need to check to see if we have any other boots already included first
+            if (currentBuild.some(i => i.hasOwnProperty('boots'))){
+               setError('You already got a pair of boots.');
+               window.scrollTo(0, 100)
+               return;
+            }
+          }
+
+            setSelectedId(item.id);
             setOpen(true);
-            console.log(id)
+            console.log(item.id)
         }
        
 
@@ -36,7 +70,9 @@ const ItemsTable = ({items, handleSortChange, sortBy, tableRef}) => {
             return;
 
         } else { //value must equal 'add' 
-            setSelectedId(id)
+            //setSelectedId(id);
+            addItemIfShould(selectedItemRef.current);
+  
         }
       };
     
@@ -111,11 +147,11 @@ const ItemsTable = ({items, handleSortChange, sortBy, tableRef}) => {
             items.length > 0 ? 
             items.map(item => 
                 
-            <TableRow  className='table-row' onClick={(e) => handleRowClick(e, item.id)} key={item.id} hover={true} >
+            <TableRow  className='table-row' onClick={(e) => handleRowClick(e, item)} key={item.id} hover={true} >
                 <TableCell component="th" scope="row" className="table-name" align="center" >
                 <img src={ `/items/${item.id}.png`} alt={item.name} className='table-img'/>
             </TableCell>
-            <TableCell component="th" scope="row" className="table-name" align="center" style={{ position: 'sticky', left: '0', backgroundColor: '#302f2f'}}>
+            <TableCell component="th" scope="row" className="table-name" align="center" style={{ position: 'sticky', left: '0', backgroundColor: '#302f2f', opacity: '80%'}}>
               {item.name}
             </TableCell>
 
@@ -131,6 +167,8 @@ const ItemsTable = ({items, handleSortChange, sortBy, tableRef}) => {
             selectedId={selectedId}
             open={open}
             onClose={handleClose}
+            items={items}
+            selectedItem={selectedItemRef}
              />
             </TableRow>
          

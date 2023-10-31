@@ -23,10 +23,11 @@ const ItemBuilder = () => {
   const [sortBy, setSortBy] = useState({ field: 'name', order: 'desc'} );
   const [showZero, setShowZero] = useState(true);
 
-  const [currentBuildIds, setCurrentBuildIds] = useState([0, -1, -2, -3, -4, -5])
+  const [currentBuild, setCurrentBuild] = useState([{id: 0}, {id: -1}, {id: -2}, {id: -3}, {id: -4}, {id: -5}])
+
+  const [error, setError] = useState('');
 
   const nullId = useRef(-6)
-
 
 
   const tableRef = useRef(null);
@@ -40,8 +41,8 @@ const ItemBuilder = () => {
     useEffect( () => {
       fetch(`${import.meta.env.VITE_APP_URL}allItems`).then( res => 
       res.json()).then(json => {
-        setAllItems(Object.values(json))
-        setFilteredItems(Object.values(json))
+        setAllItems(json)
+        setFilteredItems(json)
       })
     }, []);
 
@@ -113,18 +114,27 @@ const ItemBuilder = () => {
 
 }
 
-const handleAddItemClick = (id) => {
 
-}
 
 
   return (
     <div className='builder-container'>
-      <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between'}}>
-    <Build />
+      <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between'}} className='forMedia'>
+    <Build items={currentBuild}/>
+    <div style={{display: 'flex'}}>
+    {
+      error && 
+      
+        <div className='err-div' style ={{ outline: '3px solid #FF4500', padding: '0px 1.5rem', cursor: 'pointer', alignSelf: 'flex-end'}} onClick={()=> setError('')}>
+        <p>{error}
+        </p>
+        </div>
+       
+    }
+    </div>
     <ItemFilters showOnly={showOnly}  handleChange={handleShowOnlyChange} showZero={showZero} setShowZero={setShowZero} handleChecked={handleChecked} />
     </div>
-    <ItemsTable items={filteredItems} showOnly={showOnly} sortBy={sortBy}  handleSortChange={handleSortChange} tableRef={tableRef} /> 
+    <ItemsTable items={filteredItems} showOnly={showOnly} sortBy={sortBy}  handleSortChange={handleSortChange} tableRef={tableRef} currentBuild={currentBuild} setCurrentBuild={setCurrentBuild} setError={setError}/> 
     
   </div>
   )
