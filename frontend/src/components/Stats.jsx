@@ -26,15 +26,19 @@ const statsMap = {
     "percenttenacity": "tenacity %"
 }
 
-const Stats = ({items}) => {
+const Stats = ({items, wide = false}) => {
     const totalBuildStats = { };
 
-    if (items) {
-
+    let showItems = true;
+    
+    if (!items || items.length <= 0 || items.every(i => i.id <= 0)){
+        showItems = false;
+    } else {
         items?.map( item => {
             Object.keys(item).map( key => {
                 if (statsMap[key]){
                     let currStat = statsMap[key];
+                    showItems = true;
                     if (!totalBuildStats[currStat]){
                         totalBuildStats[currStat] = item[key];
                     } else {
@@ -44,24 +48,31 @@ const Stats = ({items}) => {
     
             })
         });
-    
-        totalBuildStats.cost = totalBuildStats.cost.toLocaleString("en-US");
+        if (totalBuildStats.cost) {
+            totalBuildStats.cost = totalBuildStats.cost.toLocaleString("en-US");
+        }
+      
     }
+   
+
+     
+
+
 
 
 
 
   return (
-    <div className='stats-cont'>
+    <div className='stats-cont' style={{ width: wide ? '550px' : '230px' }}>
         <h5>Total Build's Stats</h5>
-        <div className='stats-flex'>
+        <ul className='stats-flex'>
             {
-            items?.length > 0 ?
+            showItems ?
             Object?.keys(totalBuildStats)?.map(stat => 
                   {  
                     if (totalBuildStats[stat] !== 0) {
                         return ( 
-                            <div key={stat}>
+                            <li key={stat} style={{backgroundColor: 'rgb(26, 26, 26)', padding: "5px 12px"}}>
                             <span>{stat.replace('%', '')}</span>: <span>{totalBuildStats[stat] }
                             {
                             stat.includes('%') ? <span>%</span> : null 
@@ -70,7 +81,7 @@ const Stats = ({items}) => {
                             stat.includes('cost') ? <span> g</span> : null 
                             }
                             </span>
-                            </div>
+                            </li>
                             )}
 
                     }
@@ -79,7 +90,7 @@ const Stats = ({items}) => {
             <p>Currently No Items Selected</p>
          
             }
-        </div>
+        </ul>
     </div>
   )
 }
