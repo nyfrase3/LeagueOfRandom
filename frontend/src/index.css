@@ -4,7 +4,7 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  color: rgba(255, 255, 255);
   background-color: 	#572d6a;
   margin: 0 auto !important;
   padding: 0 !important;
@@ -68,18 +68,6 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
 
 .header {
   display: flex;
@@ -105,14 +93,14 @@ button:focus-visible {
   width: 100vw;
 }
 
-img {
+/* img {
   width: 380px;
   height: 380px;
   border-radius: 8px;
   object-fit: cover;
-}
+} */
 .type-select {
-  color: rgba(255, 255, 255, 0.87)!important;
+  color: rgba(255, 255, 255)!important;
   background-color: #1a1a1a !important;
   border-radius: 8px !important;
   width: 210px;
@@ -135,6 +123,9 @@ img {
   gap: 1rem;
   margin-top: -33px;
  
+}
+.champ-cont button {
+  color: rgba(255, 255, 255);
 }
 .build-cont {
   width: fit-content;
@@ -178,7 +169,7 @@ img {
 
 }
 .MuiFormLabel-root {
-  color: rgba(255, 255, 255, 0.87) !important;   
+  color: rgba(255, 255, 255) !important;   
   border-bottom: 1px solid rgba(255, 255, 255, 0.87);
 }
 
@@ -276,8 +267,7 @@ tr:hover {
 }
 
 .build-cont img {
-  width: 55px;
-  height: 55px;
+  width: 90px;
   padding: 1rem;
   object-fit: cover;
 }
@@ -434,7 +424,7 @@ flex-direction: row !important;
 
 .empty-row td {
   padding-left: 3rem !important;
-  background-image: url('../public/champions/troll.jpg') !important;
+  background-image: url('/champions/troll.jpg') !important;
   background-repeat: no-repeat;
   background-size: contain;
 }
@@ -475,4 +465,19 @@ flex-direction: row !important;
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
+}
+
+div.err-div:hover {
+  background-color: #FF4500;
+}
+
+@media screen and (max-width: 1575px) {
+  .forMedia {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: start;
+  }
+  .err-div {
+    align-self: flex-start !important;
+  }
 }

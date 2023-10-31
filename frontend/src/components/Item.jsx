@@ -62,7 +62,7 @@ const Item = ({item}) => {
                    Object.keys(statsMap).map(key => {
                      if (item[key] > 0) {
                        return (
-                         <div key={key} ><span>{statsMap[key].replace('%', '')}: {item[key]}</span>
+                         <div key={key} style={{whiteSpace: 'nowrap'}} ><span>{statsMap[key].replace('%', '')}: {item[key]}</span>
                            {
                              statsMap[key].includes('%') ? <span>%</span> : null 
                                    } 
