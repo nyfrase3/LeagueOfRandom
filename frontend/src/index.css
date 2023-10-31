@@ -46,7 +46,9 @@ h1 {
   color:#bf922a;
   -webkit-text-stroke: 1px #020101;
 }
-
+li {
+  list-style-type: none;
+}
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -244,14 +246,7 @@ button:focus-visible {
  
 }
 
-.build-flex > * {
-  flex-basis: 137px;
 
-  outline: 1px solid #302f2f; 
-  background-color: rgb(3, 3, 3);
-  height: 137px;
-
-}
 
 tr:hover {
   cursor: pointer;

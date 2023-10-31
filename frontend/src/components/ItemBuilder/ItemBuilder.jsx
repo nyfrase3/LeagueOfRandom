@@ -4,6 +4,7 @@ import {statsMap} from '../../stats'
 import ItemsTable from './ItemsTable';
 import ItemFilters from './ItemFilters'
 import Build from '../Build';
+import Stats from '../Stats';
 
 const shuffleArray = array => {
   for (let i = array.length - 1; i > 0; i--) {
@@ -121,16 +122,20 @@ const ItemBuilder = () => {
     <div className='builder-container'>
       <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between'}} className='forMedia'>
     <Build items={currentBuild}/>
-    <div style={{display: 'flex'}}>
+    <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center', gap: '1rem'}}>
     {
       error && 
       
-        <div className='err-div' style ={{ outline: '3px solid #FF4500', padding: '0px 1.5rem', cursor: 'pointer', alignSelf: 'flex-end'}} onClick={()=> setError('')}>
+        <div className='err-div' style ={{ outline: '3px solid #FF4500', padding: '0px 1.5rem', cursor: 'pointer'}} onClick={()=> setError('')}>
         <p>{error}
         </p>
         </div>
        
     }
+      <div>
+      <Stats items={currentBuild} wide = {true}/>
+      </div>
+
     </div>
     <ItemFilters showOnly={showOnly}  handleChange={handleShowOnlyChange} showZero={showZero} setShowZero={setShowZero} handleChecked={handleChecked} />
     </div>
@@ -139,6 +144,7 @@ const ItemBuilder = () => {
   </div>
   )
 };
+
 
 function filterByCategory (category, arr) {
   console.log(category)

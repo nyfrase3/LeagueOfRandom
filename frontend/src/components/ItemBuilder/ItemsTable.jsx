@@ -29,14 +29,13 @@ const ItemsTable = ({items, handleSortChange, sortBy, tableRef, currentBuild, se
 
 
     const handleRowClick = (e, item) => {
- 
         e.stopPropagation();
         if (open) {
             return;
         } else {
-
-          firstEmptySlot.current = currentBuild.findIndex(i => i.id <= 0);
-          if (firstEmptySlot == -1) {//THERE ARE NO EMPTY SLOTS: DO SOMETHING ELSE 
+          const firstEmptyIndex  = currentBuild.findIndex(i => i.id <= 0);
+          firstEmptySlot.current = firstEmptyIndex;
+          if (firstEmptyIndex == -1) {//THERE ARE NO EMPTY SLOTS: DO SOMETHING ELSE 
             setError("You ran out of space!");
             window.scrollTo(0, 100)
             return;
@@ -54,7 +53,14 @@ const ItemsTable = ({items, handleSortChange, sortBy, tableRef, currentBuild, se
                return;
             }
           }
-
+          if (item.hasOwnProperty('mythic')){
+       
+            if (currentBuild.some(i => i.hasOwnProperty('mythic'))) {
+              setError('You can only have one mythic item.');
+              window.scrollTo(0, 100)
+              return;
+            }
+          }
             setSelectedId(item.id);
             setOpen(true);
             console.log(item.id)
