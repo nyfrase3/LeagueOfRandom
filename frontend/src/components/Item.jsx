@@ -45,14 +45,19 @@ const Item = ({item}) => {
     }
 
   return (
-    <div className='item' onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
-     { item.id > 0 && <h6>{item.name}</h6> }
+    <div className='item' onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} style={{display: 'flex', flexDirection: 'column', justifyItems: 'space-between' }}>
+     { item.id > 0 && 
+     
+      <h6>{item.name}</h6> }
 
-        <div className='img-cont'>
+        <div className='img-cont' style= {{height:   item.id > 0 ? '105px' : '127px', width: '127px'}}>
         {
         item.id > 0 ? 
+        
           <img src={itemUrl} alt={item.name}/> :
-          <p>empty slot</p>
+          <div style={{height: '127px', display: 'flex', alignItems: 'center'}}>
+          <p >empty slot</p>
+          </div>
         }
       
            {item.id > 0 && 
