@@ -118,7 +118,7 @@ function Randomizer() {
               Randomize
             </button>
             {!champion && (
-              <section className="text-gray-900 w-full pt-5 text-center max-w-lg">
+              <section className="text-gray-900 mx-auto pt-5 text-center max-w-lg">
                 <p>
                   You will be presented with a random champion, and a random
                   build. Select different options to tailor the results to your
