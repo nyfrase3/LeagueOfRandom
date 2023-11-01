@@ -41,7 +41,8 @@ const Item = ({item}) => {
     }
 
     const tooltipStyle = {
-      display: showToolTip ? 'block' : 'none'
+      display: showToolTip ? 'block' : 'none',
+      width: 'fit-content'
     }
 
   return (
