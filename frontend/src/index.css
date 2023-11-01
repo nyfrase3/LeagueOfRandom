@@ -268,8 +268,7 @@ tr:hover {
 }
 
 .build-cont img {
-  width: 90px;
-  padding: 1rem;
+  width: 85px;
   object-fit: cover;
 }
 
@@ -454,7 +453,6 @@ flex-direction: row !important;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 115px;
 }
 
 .cancel {
