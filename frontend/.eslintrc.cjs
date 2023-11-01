@@ -1,20 +1,34 @@
-module.exports = {
-  root: true,
-  env: { browser: true, es2020: true, node: true },
+/** @type {import("eslint").Linter.Config} */
+const config = {
+  parser: "@typescript-eslint/parser",
+  ignorePatterns: ["**/node_modules/**", "commitlint.config.js"],
+  parserOptions: {
+    project: true,
+  },
+  plugins: ["@typescript-eslint"],
   extends: [
-    'eslint:recommended',
-    'plugin:react/recommended',
-    'plugin:react/jsx-runtime',
-    'plugin:react-hooks/recommended',
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended-type-checked",
+    "plugin:@typescript-eslint/stylistic-type-checked",
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
-  parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
-  settings: { react: { version: '18.2' } },
-  plugins: ['react-refresh'],
   rules: {
-    'react-refresh/only-export-components': [
-      'warn',
-      { allowConstantExport: true },
+    "@typescript-eslint/consistent-type-imports": [
+      "warn",
+      {
+        prefer: "type-imports",
+        fixStyle: "inline-type-imports",
+      },
+    ],
+    "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+    "@typescript-eslint/no-misused-promises": [
+      2,
+      {
+        checksVoidReturn: {
+          attributes: false,
+        },
+      },
     ],
   },
-}
+};
+
+module.exports = config;

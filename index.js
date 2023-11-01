@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 app.listen(3000, () => console.log("Server is running"));
 
 
-app.get('/randomChampion', async (req, res, next) => { //get a random champion from the pool of ALL champions
+app.get('/randomChampion', async (_, res, _) => { //get a random champion from the pool of ALL champions
   const randomInt = getRandomNumber(1, 165);
   const result = await db.query('SELECT * FROM champions WHERE id = $1', [randomInt])
   // await db.end();
