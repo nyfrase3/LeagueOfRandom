@@ -1,9 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Randomizer from "./components/Ramdomizer/Randomizer";
-import Nav from "./components/Nav";
 import ItemBuilder from "./components/ItemBuilder/ItemBuilder";
 import Header from "./components/Header";
-import "./App.css";
 
 import React from "react";
 import About from "./components/About";
@@ -12,11 +10,7 @@ const App = () => {
   return (
     <>
       <BrowserRouter>
-        <Header>
-          <Nav />
-        </Header>
-        <Nav />
-
+        <Header/>
         <Routes>
           <Route path="/" element={<Randomizer />} />
           <Route path="/build" element={<ItemBuilder />} />

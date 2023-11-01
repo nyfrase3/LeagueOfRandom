@@ -26,7 +26,7 @@ const statsMap = {
     "percenttenacity": "tenacity %"
 }
 
-const Stats = ({items, wide = false}) => {
+const Stats = ({items, wide = false}: {items: unknown, wide?: boolean}) => {
     const totalBuildStats = { };
 
     let showItems = true;
