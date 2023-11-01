@@ -27,6 +27,9 @@ const ItemBuilder = () => {
   const [currentBuild, setCurrentBuild] = useState([{id: 0}, {id: -1}, {id: -2}, {id: -3}, {id: -4}, {id: -5}])
 
   const [error, setError] = useState('');
+  const [showRemove, setShowRemove] = useState(false);
+
+  const itemToRemove = useRef(null);
 
   const nullId = useRef(-6)
 
@@ -113,15 +116,36 @@ const ItemBuilder = () => {
     setFilteredItems(copy);
     scrollToTop();
 
+};
+
+const handleItemClick = (item) => {
+  console.log(item)
+  if (item.id <= 0) return;
+  itemToRemove.current = item;
+  setShowRemove(true);
 }
 
+const handleRemoveClose = (action) => {
+  console.log(action)
+  setShowRemove(false) 
+  if (action == 'cancel') return;
 
+  const copy = [...currentBuild];
+  const indexToRemove = currentBuild.findIndex(i => i.id == itemToRemove.current.id);
+
+  const newBuild = [...currentBuild.slice(0, indexToRemove), ...currentBuild.slice(indexToRemove + 1), {id: nullId.current}];
+
+  nullId.current = nullId.current - 1;
+  setCurrentBuild(newBuild);
+
+  
+}
 
 
   return (
     <div className='builder-container'>
       <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between'}} className='forMedia'>
-    <Build items={currentBuild}/>
+    <Build items={currentBuild} handleItemClick={handleItemClick} showRemove={showRemove} setShowRemove={setShowRemove} itemToRemove={itemToRemove.current} handleRemoveClose={handleRemoveClose}/>
     <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center', gap: '1rem'}}>
     {
       error && 

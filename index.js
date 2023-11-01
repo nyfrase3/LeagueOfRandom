@@ -187,6 +187,7 @@ async function getLegendaries (mainStat, subStats) {
 
 };
 
+// one time use endpoints used to migrate data from local db to remote db 
 app.get('/api/allChampions', async (req, res, next) => {
   const namesResult = await db.query('SELECT * FROM champions ORDER BY name asc');
   let query = 'INSERT INTO champions (name, title, class, subclass, type) VALUES ';
