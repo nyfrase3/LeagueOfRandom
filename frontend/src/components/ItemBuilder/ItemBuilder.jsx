@@ -82,7 +82,7 @@ const ItemBuilder = () => {
 
     e.stopPropagation();
     const currentField = sortBy.field;
-    if (currentField == 'name' || currentField == 'random' || currentField == 'cost') {
+    if ((currentField == 'name' || currentField == 'random' || currentField == 'cost') ) {
       setZeroError('sort results by a criteria with non-zero values to use this option')
       return; 
     }//we only eliminate data if the field has a numerical value that can be a zero value
@@ -118,10 +118,12 @@ const ItemBuilder = () => {
 
     let copy = [...allItems];
     copy = filterByCategory(showOnly, copy);
-    if (!showZero && val != 'name' && val != 'random') {
+    if (!showZero && val != 'name' && val != 'random' && val != 'cost') {
       copy = copy.filter(item => 
         item[val] > 0
       )
+    } else {
+      setShowZero(true);
     }
     
     sortByField(val, newOrder, copy);
