@@ -181,12 +181,13 @@ const ItemsTable = ({items, handleSortChange, sortBy, tableRef, currentBuild, se
          
              )
              :
-            
+             <>
              <TableRow className='empty-row'>
-                
-                <TableCell align="left"  style={{ height: "400px", color: 'white' }} colSpan={25}>No Matching Items</TableCell>
+         
+                <TableCell align="left"  style={{ height: "480px", color: 'white', margin: '0' }} colSpan={25}>No Matching Items</TableCell>
              </TableRow>
-            
+             
+             </>
             }  
             
 

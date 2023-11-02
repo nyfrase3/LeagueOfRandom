@@ -29,10 +29,14 @@ a {
   color: #F7F4EF;
   text-decoration: inherit;
 }
-a:hover {
-  color: #bf922a;
+
+a:hover, .sign-up:hover {
+  color: #bf922a !important;
 }
 
+.outer-cont .MuiCheckbox-root.Mui-checked {
+  color: #572d6a !important;
+}
 body {
   margin: 0;
   padding-top: 1rem;
@@ -92,7 +96,6 @@ button:focus-visible {
   top: 0;
   width: 100%;
   height: fit-content;
-  background-color: #302f2f;
   background-color: #572d6a;
   padding: 0.3rem 0;
 }
@@ -359,6 +362,7 @@ table {
   /* background-color:#302f2f !important; */
   font-size: 13px !important;
 }
+
 
 .MuiTableRow-hover:hover {
   background-color: #21242c !important;

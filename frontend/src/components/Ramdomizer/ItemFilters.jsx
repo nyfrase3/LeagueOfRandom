@@ -46,7 +46,16 @@ const ItemFilters = ({boots, setBoots, mainStat, setMainStat, none, setNone, all
 
   }, [subStats.health, subStats.percentattackspeed, subStats.mana, subStats.abilityhaste, subStats.armor, subStats.magicresist, subStats.attackdamage, subStats.abilitypower])
 
-  const style = {
+
+  const style = { 
+    checkbox: {
+    '&$checked': {
+      color: '#4B8DF8'
+    },
+    '&$unChecked': {
+      color: '#4B8DF8'
+    }
+  },
     "& label.Mui-focused": {
       color: "#bf922a"
     },

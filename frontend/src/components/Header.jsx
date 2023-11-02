@@ -12,7 +12,7 @@ const Header = ( {handleSignUp, loggedIn}) => {
         {loggedIn ? 
         <span>Hi</span>  
         :
-        <span style={{position: 'absolute', bottom: '10px', right: '4rem', color:'#bf922a', cursor: 'pointer'}} className='sign-up' onClick={handleSignUp}>Sign Up</span>
+        <span style={{position: 'absolute', bottom: '10px', right: '4rem', color:'#F7F4EF', cursor: 'pointer'}} className='sign-up' onClick={handleSignUp}>Sign Up</span>
       }
        
     </div>
