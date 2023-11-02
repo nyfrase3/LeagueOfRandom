@@ -3,14 +3,17 @@ import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleXmark} from '@fortawesome/free-regular-svg-icons';
 import Select from '@mui/material/Select';
 
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import FormHelperText from '@mui/material/FormHelperText';
 import Checkbox from '@mui/material/Checkbox';
 
 const ItemFilters = ({boots, setBoots, mainStat, setMainStat, none, setNone, all, setAll, subStats, setSubStats}) => {
+
+  const [err, setErr] = useState(null);
 
   useEffect( ()=> {
     const boolVals = Object.values(subStats);
@@ -59,10 +62,11 @@ const ItemFilters = ({boots, setBoots, mainStat, setMainStat, none, setNone, all
   
   const handleMainStatChange = (e) => {
     setMainStat(e.target.value); 
-
+    setErr(null);
     if (e.target.value == 'ALL') {
       handleAllChecked();
     } else {
+   
       setSubStats({
         ...subStats,
         [e.target.value]: true,
@@ -92,7 +96,10 @@ const ItemFilters = ({boots, setBoots, mainStat, setMainStat, none, setNone, all
   }
 
   const handleNoneChecked = () => {
-
+    if (mainStat == 'ALL') {
+      setErr('specify a main stat to choose substats.')
+      return;
+    } 
     const newStats = {};
     Object.keys(subStats).map(stat => {
       newStats[stat] = false;
@@ -182,6 +189,9 @@ const ItemFilters = ({boots, setBoots, mainStat, setMainStat, none, setNone, all
             }
             label="None"
           />
+          {
+            err && <span className='error' onClick={ ()=> setErr(null)} style={{ color: '#FF4500', cursor: 'pointer', fontSize: '0.7rem'}}> <FontAwesomeIcon icon={faCircleXmark} /> {err}</span>
+          }
             </FormGroup>
    </InputLabel>
         <FormGroup>
