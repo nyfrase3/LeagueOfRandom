@@ -3,11 +3,11 @@ import {Table, TableRow, TableBody, TableCell, TableContainer, TableHead, Paper 
 import {statsMap} from '../../stats'
 import AddItemMenu from './AddItemMenu'
 
-const gradiantTop = 'linear-gradient( 180deg, hsl(42deg 64% 46%) 0%, hsl(42deg 59% 43%) 0%, hsl(42deg 55% 41%) -1%, hsl(42deg 51% 38%) -1%, hsl(42deg 46% 35%) -1%, hsl(42deg 41% 33%) 0%, hsl(42deg 37% 30%) 1%, hsl(42deg 32% 28%) 2%, hsl(42deg 28% 25%) 4%, hsl(42deg 23% 23%) 6%, hsl(44deg 18% 20%) 11%, hsl(42deg 14% 18%) 17%, hsl(43deg 9% 15%) 27%, hsl(40deg 5% 13%) 47%, hsl(0deg 0% 10%) 100% )';
+const gradiantTop = 'linear-gradient( 0deg, hsl(281deg 40% 30%) 53%, hsl(296deg 41% 31%) 78%, hsl(309deg 44% 33%) 87%, hsl(318deg 49% 37%) 91%, hsl(325deg 52% 41%) 94%, hsl(332deg 54% 44%) 96%, hsl(337deg 55% 48%) 97%, hsl(343deg 58% 52%) 98%, hsl(349deg 65% 56%) 98%, hsl(355deg 73% 60%) 98%, hsl(2deg 81% 62%) 99%, hsl(9deg 89% 62%) 99%, hsl(16deg 95% 61%) 99%, hsl(22deg 99% 60%) 99%, hsl(28deg 100% 58%) 100%, hsl(34deg 100% 55%) 100%, hsl(40deg 100% 50%) 100%);';
 
-const grandiantBot = 'linear-gradient( 0deg, hsl(42deg 64% 46%) 0%, hsl(42deg 59% 43%) 0%, hsl(42deg 55% 41%) -1%, hsl(42deg 51% 38%) -1%, hsl(42deg 46% 35%) -1%, hsl(42deg 41% 33%) 0%, hsl(42deg 37% 30%) 1%, hsl(42deg 32% 28%) 2%, hsl(42deg 28% 25%) 4%, hsl(42deg 23% 23%) 6%, hsl(44deg 18% 20%) 11%, hsl(42deg 14% 18%) 17%, hsl(43deg 9% 15%) 27%, hsl(40deg 5% 13%) 47%, hsl(0deg 0% 10%) 100%)';
+const grandiantBot = 'linear-gradient( 180deg, hsl(281deg 40% 30%) 53%, hsl(296deg 41% 31%) 78%, hsl(309deg 44% 33%) 87%, hsl(318deg 49% 37%) 91%, hsl(325deg 52% 41%) 94%, hsl(332deg 54% 44%) 96%, hsl(337deg 55% 48%) 97%, hsl(343deg 58% 52%) 98%, hsl(349deg 65% 56%) 98%, hsl(355deg 73% 60%) 98%, hsl(2deg 81% 62%) 99%, hsl(9deg 89% 62%) 99%, hsl(16deg 95% 61%) 99%, hsl(22deg 99% 60%) 99%, hsl(28deg 100% 58%) 100%, hsl(34deg 100% 55%) 100%, hsl(40deg 100% 50%) 100%);';
 
-const centerGradiant = 'radial-gradient(circle, rgba(26,26,26,0.8653920807453416) 79%, rgba(207,158,45,1) 98%)';
+const centerGradiant = 'radial-gradient(circle, rgba(98,51,119,1) 50%, rgba(98,51,119,1) 76%, rgba(98,51,119,1) 81%, rgba(254,170,0,1) 95%)';
 
 
 const ItemsTable = ({items, handleSortChange, sortBy, tableRef, currentBuild, setCurrentBuild, setError}) => {
@@ -85,10 +85,10 @@ const ItemsTable = ({items, handleSortChange, sortBy, tableRef, currentBuild, se
   return (
     <div >
 
-    <TableContainer component={Paper} className='data-table'  sx={{  
-      fontSize: '40px'
+    <TableContainer component={Paper} className='data-table' style={{backgroundColor: '#141823', marginTop: '2rem'}} sx={{  
+      fontSize: '40px', 
     
-    ,"&::-webkit-scrollbar": {
+    "&::-webkit-scrollbar": {
 	  width: 15
     },
     "&::-webkit-scrollbar-track": {
@@ -102,11 +102,11 @@ const ItemsTable = ({items, handleSortChange, sortBy, tableRef, currentBuild, se
   ref={tableRef}
   >
 
-    <Table aria-label="simple table" stickyHeader sx={{position: 'relative' }} 
+    <Table aria-label="simple table" stickyHeader sx={{position: 'relative', }}
      > 
       <TableHead className='table-header' >
        
-        <TableRow sx={{backgroundColor: '#302f2f'}}>
+        <TableRow sx={{backgroundColor: '#572d6a'}} style={{backgroundColor: '#572d6a'}}>
         <TableCell onClick={ e => handleSortChange(e, 'random')} 
             className='order-random'
             sx={{ backgroundImage: 

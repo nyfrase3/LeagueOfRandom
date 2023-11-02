@@ -68,6 +68,10 @@ button {
 
 }
 
+.forMedia .full-item {
+  cursor: pointer;
+}
+
 button:hover {
   border-color: #bf922a;
   color: #ffc249;
@@ -347,7 +351,7 @@ table {
 }
 
 .table-header * {
-    background-color:#302f2f !important;
+    background-color:#572d6a !important;
 }
 
 
@@ -452,9 +456,6 @@ flex-direction: row !important;
   padding: 0.3rem 0.3rem 7rem;
 }
 
-.builder-container > * {
-  padding: 0.7rem 1.5rem;
-}
 
 .none-selected {
   height: 100px;

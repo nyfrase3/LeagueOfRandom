@@ -32,8 +32,7 @@ const About = () => {
         </ul>
         </div>
         <div style={{display: 'flex', alignItems: 'flex-end'}}>
-          <p style={{display: 'flex', alignItems: 'center', gap: '3px'}} >Data provided by <b> <a style={{cursor: 'pointer', color: 
-        'red'}} href='https://developer.riotgames.com/docs/lol' target="_blank" >Riot Games</a></b> <img src='/items/riot.png' style={{width: '30px'}} /> <span style={{fontSize: '0.7rem', alignSelf: 'flex-end', paddingBottom: '3px'}}>accurate to patch 13.18</span></p>
+          <p style={{display: 'flex', alignItems: 'center', gap: '3px'}} >Data provided by <b> <a style={{cursor: 'pointer', padding: '0 5px'}} href='https://developer.riotgames.com/docs/lol' target="_blank" > Riot Games</a></b> <img src='/items/riot.png' style={{width: '30px'}} /> <span style={{fontSize: '0.7rem', alignSelf: 'flex-end', paddingBottom: '3px'}}>accurate to patch 13.18</span></p>
         </div>
         </div>
       </section>

@@ -44,24 +44,27 @@ const Item = ({item}) => {
       display: showToolTip ? 'block' : 'none',
       width: 'fit-content'
     }
+    const isEmpty = item.id <= 0;
 
   return (
-    <div className='item' onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} style={{display: 'flex', flexDirection: 'column', justifyItems: 'space-between' }}>
-     { item.id > 0 && 
+    <div className= { isEmpty ? 'empty-item item' : 'full-item item'}  onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} style={{display: 'flex', flexDirection: 'column', justifyItems: 'space-between' }}>
+     { !isEmpty && 
      
       <h6 style={{textOverflow: 'ellipsis', overflow: 'hidden', width: '127px', marginTop: '7px', fontSize: '0.8rem'}}>{item.name}</h6> }
 
-        <div className='img-cont' style= {{height:   item.id > 0 ? '105px' : '127px', width: '127px'}}>
+        <div className='img-cont' style= {{height:   !isEmpty ? '105px' : '127px', width: '127px'}}>
         {
-        item.id > 0 ? 
-        
-          <img src={itemUrl} alt={item.name}/> :
-          <div style={{ display: 'flex', alignItems: 'center'}}>
+        !isEmpty ? 
+          <div >
+          <img src={itemUrl} alt={item.name}/> 
+          </div>
+          :
+          <div style={{ display: 'flex', alignItems: 'center', cursor: 'default'}} className='empty-item'>
           <p >empty slot</p>
           </div>
         }
       
-           {item.id > 0 && 
+           {!isEmpty && 
             <div style={tooltipStyle} className='tooltip'>
                  <div className='tool-name'>{item.name}</div>
                  {

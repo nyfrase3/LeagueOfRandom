@@ -84,7 +84,7 @@ const Stats = ({items, wide = false}) => {
                     }
             )
             :
-            <p>Currently No Items Selected</p>
+            <p style = {{textAlign: 'center'}}>Currently No Items Selected</p>
          
             }
         </ul>
