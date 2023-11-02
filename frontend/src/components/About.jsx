@@ -9,9 +9,9 @@ const About = () => {
         </p>
         <img src='/items/UA-LOGO.png' style={{width: '8rem'}}></img>
         <p>'s Database Management System, Fall 2023.</p>
-        <div style= {{ position: 'absolute', bottom: '5px', display: 'flex', justifyContent: 'flex-end', whiteSpace: 'nowrap', backgroundColor: '#f9f9f9', width: '100%'}}><span style={{fontWeight: '600'}}>author: nick frase</span></div>
+        <div style= {{ position: 'absolute', bottom: '5px', display: 'flex', justifyContent: 'flex-end', whiteSpace: 'nowrap', width: '100%'}}><span style={{fontWeight: '600'}}>author: nick frase</span></div>
       </section>
-      <section style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: '#572d6a', color: 'rgba(255, 255, 255)', padding: '0px 0px 3rem 0px'}}>
+      <section style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: '#572d6a', color: '#F7F4EF', padding: '0px 0px 3rem 0px', height: '40vh'}}>
         <h3 style={{marginBottom: '3rem'}}>Technologies </h3>
 
         <div style={{display: 'flex', justifyContent: 'center', width: '100vw', gap: '70px'}}>
@@ -32,7 +32,8 @@ const About = () => {
         </ul>
         </div>
         <div style={{display: 'flex', alignItems: 'flex-end'}}>
-          <p style={{display: 'flex', alignItems: 'center', gap: '3px'}} >Data provided by <b> <a style={{cursor: 'pointer'}} href='https://developer.riotgames.com/docs/lol' target="_blank" >Riot Games</a></b> <img src='/items/riot.png' style={{width: '30px'}} /> <span style={{fontSize: '0.7rem', alignSelf: 'flex-end', paddingBottom: '3px'}}>accurate to patch 13.18</span></p>
+          <p style={{display: 'flex', alignItems: 'center', gap: '3px'}} >Data provided by <b> <a style={{cursor: 'pointer', color: 
+        'red'}} href='https://developer.riotgames.com/docs/lol' target="_blank" >Riot Games</a></b> <img src='/items/riot.png' style={{width: '30px'}} /> <span style={{fontSize: '0.7rem', alignSelf: 'flex-end', paddingBottom: '3px'}}>accurate to patch 13.18</span></p>
         </div>
         </div>
       </section>

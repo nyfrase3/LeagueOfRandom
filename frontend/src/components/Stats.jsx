@@ -72,16 +72,13 @@ const Stats = ({items, wide = false}) => {
                   {  
                     if (totalBuildStats[stat] !== 0) {
                         return ( 
-                            <li key={stat} style={{backgroundColor: 'rgb(26, 26, 26)', padding: "5px 12px"}}>
-                            <span>{stat.replace('%', '')}</span>: <span>{totalBuildStats[stat] }
-                            {
-                            stat.includes('%') ? <span>%</span> : null 
-                            } 
-                             {
-                            stat.includes('cost') ? <span> g</span> : null 
-                            }
+                            <li key={stat} style={{ padding: "2px", lineHeight: '1.7rem'}}>
+                            <span style={{fontSize: '1.3rem', letterSpacing: '-1px', marginRight:'0.2rem'}}>
+                              {totalBuildStats[stat]}
+                              {stat.includes("%") ? <span>%</span> : null}
                             </span>
-                            </li>
+                            <span > {stat.replace("%", "")}</span>
+                          </li>
                             )}
 
                     }

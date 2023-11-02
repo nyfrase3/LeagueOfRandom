@@ -119,7 +119,7 @@ const ItemFilters = ({boots, setBoots, mainStat, setMainStat, none, setNone, all
                 MenuProps: {
                     MenuListProps: {
                         sx: {
-                            backgroundColor: '#1a1a1a',
+                          backgroundColor: '#141823',
                             color: 'rgba(255, 255, 255, 0.87)'
                         }
                     }

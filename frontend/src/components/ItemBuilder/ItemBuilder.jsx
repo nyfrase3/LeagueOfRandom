@@ -5,6 +5,7 @@ import ItemsTable from './ItemsTable';
 import ItemFilters from './ItemFilters'
 import Build from '../Build';
 import Stats from '../Stats';
+import AddItemForm from './AddItemForm';
 
 const shuffleArray = array => {
   for (let i = array.length - 1; i > 0; i--) {
@@ -36,6 +37,13 @@ const ItemBuilder = () => {
 
   const tableRef = useRef(null);
 
+  let isBuildFull = false;
+
+  if (currentBuild.every(i => i.id > 0)) {
+    isBuildFull = true;
+  }
+
+  console.log(isBuildFull + ' the build is full?')
   function scrollToTop() {
     if (tableRef.current) {
       tableRef.current.scrollTop = 0;
@@ -141,10 +149,25 @@ const handleRemoveClose = (action) => {
   
 }
 
+const handleAddBuild = () => {
+  let summonerName = 'CorgiPartyTime'
+  // console.log(import.meta.env.PROD)
+  console.log(import.meta.env.VITE_RIOT_API_KEY);
+  if (import.meta.env.PROD) {
+    let url = `https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${import.meta.env.VITE_RIOT_API_KEY}`;
+    
+    const summoner = fetch(url).then(res => res.json()).then(json => console.log(json));
+  }
+  let url = `https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${import.meta.env.VITE_RIOT_API_KEY}`;
+    
+  const summoner = fetch(url).then(res => res.json()).then(json => console.log(json));
+}
+
 
   return (
     <div className='builder-container'>
-      <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between'}} className='forMedia'>
+      {/* <AddItemForm /> */}
+      <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: '1rem'}} className='forMedia'>
     <Build items={currentBuild} handleItemClick={handleItemClick} showRemove={showRemove} setShowRemove={setShowRemove} itemToRemove={itemToRemove.current} handleRemoveClose={handleRemoveClose}/>
     <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center', gap: '1rem'}}>
     {
@@ -161,7 +184,12 @@ const handleRemoveClose = (action) => {
       </div>
 
     </div>
+    <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', alignItems:'center' }}>
+      {
+        isBuildFull && <button onClick={handleAddBuild}>Add Build</button>
+      }
     <ItemFilters showOnly={showOnly}  handleChange={handleShowOnlyChange} showZero={showZero} setShowZero={setShowZero} handleChecked={handleChecked} />
+    </div>
     </div>
     <ItemsTable items={filteredItems} showOnly={showOnly} sortBy={sortBy}  handleSortChange={handleSortChange} tableRef={tableRef} currentBuild={currentBuild} setCurrentBuild={setCurrentBuild} setError={setError}/> 
     

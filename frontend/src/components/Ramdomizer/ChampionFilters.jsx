@@ -28,7 +28,7 @@ const ChampionFilters = ({type, setType, classState, setClassState}) => {
       }
 
   return (
-    <div className='filter-cont'>
+    <div className='filter-cont' >
     <h5>Champion Filters</h5>
     <Box sx={ style } size="small">
         <FormControl fullWidth variant="filled">
@@ -43,7 +43,7 @@ const ChampionFilters = ({type, setType, classState, setClassState}) => {
                 MenuProps: {
                     MenuListProps: {
                         sx: {
-                            backgroundColor: '#1a1a1a',
+                            backgroundColor: '#141823',
                             color: 'rgba(255, 255, 255, 0.87)'
                         }
                     }

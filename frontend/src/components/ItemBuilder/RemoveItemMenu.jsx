@@ -9,7 +9,6 @@ import ListItemButton from '@mui/material/ListItemButton';
 
 const RemoveItemMenu = ({onClose, open, selectedName}) => {
     if (!selectedName) return;
-    console.log('SELECTED NAME ' + selectedName)
   return (
     <Dialog onClose={onClose} open={open} maxWidth = "md" 
     hideBackdrop = {true}
