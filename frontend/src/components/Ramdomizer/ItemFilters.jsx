@@ -87,7 +87,10 @@ const ItemFilters = ({boots, setBoots, mainStat, setMainStat, none, setNone, all
 
   const handleSubStatChange = (e) => {
  {
-    if (mainStat == 'ALL') return;
+    if (mainStat == 'ALL') {
+      setErr('specify a main stat to choose substats.');
+      return;
+    }
       setSubStats({
         ...subStats,
         [e.target.name]: e.target.checked,
@@ -201,9 +204,11 @@ const ItemFilters = ({boots, setBoots, mainStat, setMainStat, none, setNone, all
             label="None"
             style={{borderBottom: '1px solid #141823'}}
           />
+          <div style={{height: '30px'}}>
           {
             err && <span className='error' onClick={ ()=> setErr(null)} style={{ color: '#FF4500', cursor: 'pointer', fontSize: '0.7rem'}}> <FontAwesomeIcon icon={faCircleXmark} /> {err}</span>
           }
+          </div>
             </FormGroup>
    </InputLabel>
         <FormGroup >

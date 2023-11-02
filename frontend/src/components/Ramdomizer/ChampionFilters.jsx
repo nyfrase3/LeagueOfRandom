@@ -52,8 +52,8 @@ const ChampionFilters = ({type, setType, classState, setClassState}) => {
             className='type-select'
         >
             <MenuItem value={'ALL'}>ALL</MenuItem>
-            <MenuItem value={'AD'}>AD</MenuItem>
-            <MenuItem value={'AP'}>AP</MenuItem>
+            <MenuItem value={'AD'}>Attack Damage</MenuItem>
+            <MenuItem value={'AP'}>Ability Power</MenuItem>
         </Select>
         </FormControl>
 

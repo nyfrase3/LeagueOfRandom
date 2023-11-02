@@ -8,7 +8,7 @@ const Header = ( {handleSignUp, loggedIn}) => {
   return (
     <div className='header'>
         <h1>League of Random</h1>
-        <h4 style={{color: '#F7F4EF'}}>a site that lets you troll your teamates</h4>
+        <h4 style={{color: '#F7F4EF'}}>a site that lets you troll your teammates</h4>
         {loggedIn ? 
         <span>Hi</span>  
         :
