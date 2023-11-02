@@ -7,9 +7,9 @@ const About = () => {
         <p>
           This Project Was Built For 
         </p>
-        <img src='/items/UA-LOGO.png' style={{width: '8rem'}}></img>
-        <p>'s Database Management System, Fall 2023.</p>
-        <div style= {{ position: 'absolute', bottom: '5px', display: 'flex', justifyContent: 'flex-end', whiteSpace: 'nowrap', width: '100%'}}><span style={{fontWeight: '600'}}>author: nick frase</span></div>
+        <img src='/items/UA-LOGO.png' style={{width: '8rem', paddingLeft: '0.75rem'}}></img>
+        <p>'s </p> < p style={ {paddingLeft: '0.75rem'}}>Database Management System, Fall 2023.</p>
+        <div style= {{ position: 'absolute', bottom: '5px', display: 'flex', justifyContent: 'flex-end', whiteSpace: 'nowrap', width: '100%'}}><span style={{fontWeight: '600'}}>author: nick f</span></div>
       </section>
       <section style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: '#572d6a', color: '#F7F4EF', padding: '0px 0px 3rem 0px', height: '40vh'}}>
         <h3 style={{marginBottom: '3rem'}}>Technologies </h3>
