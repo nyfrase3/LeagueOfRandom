@@ -68,6 +68,10 @@ button {
 
 }
 
+.forMedia .full-item {
+  cursor: pointer;
+}
+
 button:hover {
   border-color: #bf922a;
   color: #ffc249;
