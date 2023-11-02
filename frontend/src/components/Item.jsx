@@ -49,14 +49,14 @@ const Item = ({item}) => {
     <div className='item' onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} style={{display: 'flex', flexDirection: 'column', justifyItems: 'space-between' }}>
      { item.id > 0 && 
      
-      <h6>{item.name}</h6> }
+      <h6 style={{textOverflow: 'ellipsis', overflow: 'hidden', width: '127px', marginTop: '7px', fontSize: '0.8rem'}}>{item.name}</h6> }
 
         <div className='img-cont' style= {{height:   item.id > 0 ? '105px' : '127px', width: '127px'}}>
         {
         item.id > 0 ? 
         
           <img src={itemUrl} alt={item.name}/> :
-          <div style={{height: '127px', display: 'flex', alignItems: 'center'}}>
+          <div style={{ display: 'flex', alignItems: 'center'}}>
           <p >empty slot</p>
           </div>
         }

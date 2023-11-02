@@ -4,6 +4,7 @@ const db = require('./database');
 const fs = require('fs');
 const https = require("https"); 
 const bodyParser = require("body-parser");
+const bcrypt = require('bcrypt');
 
 require('dotenv').config();
 
@@ -17,6 +18,8 @@ app.use(bodyParser.json());
 
 
 app.listen(3000, () => console.log("Server is running"));
+
+const saltRounds = 10;
 
 
 app.get('/randomChampion', async (req, res, next) => { //get a random champion from the pool of ALL champions
@@ -187,6 +190,21 @@ async function getLegendaries (mainStat, subStats) {
 
 };
 
+app.post('/signUp', async (req, res, next) => {
+    const username = req.body.username || 'CorgiPartyTime';
+  const isUserResult = await db.query(`SECLECT * FROM users WHERE username = ${username}`);
+  console.log(isUserResult + ' isuser results')
+  const myPlaintextPassword = req.body.password || 'password';
+  bcrypt.hash(myPlaintextPassword, saltRounds, function(err, hash) {
+    if (hash) {
+      console.log(hash + ' is the hashed pw')
+      // await db.query('')
+    }
+
+});
+
+}, [])
+
 // one time use endpoints used to migrate data from local db to remote db 
 app.get('/api/allChampions', async (req, res, next) => {
   const namesResult = await db.query('SELECT * FROM champions ORDER BY name asc');
@@ -264,4 +282,5 @@ app.get('/api/allMythics', async (req, res, next) => {
     } 
   }); 
   res.send(result.rows);
-})
+});
+

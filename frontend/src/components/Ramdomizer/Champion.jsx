@@ -8,8 +8,8 @@ const Champion = ({champion}) => {
 
   return (
         <section className='champion-info' >
-        <h3>{champion.name}</h3>
-        <p>{champion.title}</p>
+        <h3 >{champion.name}</h3>
+        <p style={{textTransform: 'capitalize'}}>{champion.title}</p>
       
         <div>
             <img src={imgUrl}/>

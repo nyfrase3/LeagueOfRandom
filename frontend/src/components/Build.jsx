@@ -9,11 +9,10 @@ const Build = ({items = [{id: 0}, {id: -1}, {id: -2}, {id: -3}, {id: -4}, {id: -
 
   return (
     <div className='build-cont'>
-         <h3>Build</h3>
         <div className='build-flex' >
       
         {items?.map(item => 
-            <div style={{ flex: '0 1 127px', backgroundColor: '#1a1a1a'}} key={item.id} onClick={()=> handleItemClick(item)}>
+            <div style={{  backgroundColor: '#F7F4EF'}} key={item.id} onClick={()=> handleItemClick(item)}>
             <Item item={item} />
             </div>
            

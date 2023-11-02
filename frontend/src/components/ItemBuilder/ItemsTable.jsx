@@ -104,9 +104,9 @@ const ItemsTable = ({items, handleSortChange, sortBy, tableRef, currentBuild, se
 
     <Table aria-label="simple table" stickyHeader sx={{position: 'relative' }} 
      > 
-      <TableHead className='table-header'>
+      <TableHead className='table-header' >
        
-        <TableRow >
+        <TableRow sx={{backgroundColor: '#302f2f'}}>
         <TableCell onClick={ e => handleSortChange(e, 'random')} 
             className='order-random'
             sx={{ backgroundImage: 
@@ -148,7 +148,7 @@ const ItemsTable = ({items, handleSortChange, sortBy, tableRef, currentBuild, se
         )}
         </TableRow>
         </TableHead>
-        <TableBody style = {{ backgroundColor: '#302f2f' }}>
+        <TableBody style = {{ backgroundColor: '#141823' }}>
             {
             items.length > 0 ? 
             items.map(item => 
@@ -157,7 +157,7 @@ const ItemsTable = ({items, handleSortChange, sortBy, tableRef, currentBuild, se
                 <TableCell component="th" scope="row" className="table-name" align="center" >
                 <img src={ `/items/${item.id}.png`} alt={item.name} className='table-img'/>
             </TableCell>
-            <TableCell component="th" scope="row" className="table-name" align="center" style={{ position: 'sticky', left: '0', backgroundColor: '#302f2f', opacity: '80%'}}>
+            <TableCell component="th" scope="row" className="table-name" align="center" style={{ position: 'sticky', left: '0', backgroundColor: '#141823', opacity: '80%'}}>
               {item.name}
             </TableCell>
 

@@ -17,9 +17,12 @@ const styles = theme => ({
     radio: {
       '&$checked': {
         color: '#4B8DF8'
+      },
+      '&$unChecked': {
+        color: '#4B8DF8'
       }
     },
-    checked: {}
+ 
   })
 
 
@@ -28,25 +31,23 @@ const styles = theme => ({
 
 const ItemFilters = ({showOnly, handleChange, showZero, setShowZero, handleChecked}) => {
     
-   const style = {
-        backgroundColor: '#572d6a'
-    }
+
 
 
 
   return (
     <div className='filters-flex'>
-        <Box sx={ style } size="small">
+        <Box size="small" sx={{backgroundColor: '#141823', color: '#F7F4EF'}}>
         <div className='filters-flex'>
         <div className='radio-cont'>
-        <FormLabel id="show-only" sx={{ fontWeight: '600'}} >Show Only</FormLabel>
+        <FormLabel id="show-only" sx={{ fontWeight: '600', color: '#F7F4EF'}} >Show Only</FormLabel>
         <RadioGroup
         name="controlled-radio-buttons-group"
         value={showOnly}
         onChange={handleChange}
         className='radio-group'
         > 
-        <FormControlLabel value="all" control={<Radio  color='secondary' />} label="all" />
+        <FormControlLabel value="all" control={<Radio color='secondary'/>} label="all" />
          <FormControlLabel value="boots" control={<Radio color='secondary'/>} label="boots" />
         <FormControlLabel value="mythic" control={<Radio color='secondary'/>} label="mythics" />
         <FormControlLabel value="legendaries" control={<Radio color='secondary'/>} label="legendaries"/>
@@ -55,7 +56,7 @@ const ItemFilters = ({showOnly, handleChange, showZero, setShowZero, handleCheck
 
          <div>
 
-         <FormLabel id="show-zero" sx={{ fontWeight: '600'}} >Show Zero Values</FormLabel>
+         <FormLabel id="show-zero" sx={{ fontWeight: '600', color: '#F7F4EF'}} >Show Zero Values</FormLabel>
          <FormGroup className='sub-group'>
          <FormControlLabel
             control={

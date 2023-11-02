@@ -4,29 +4,29 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255);
-  background-color: 	#572d6a;
+  color: #141823;
+  background-color: 	#F7F4EF;
   margin: 0 auto !important;
   padding: 0 !important;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
   position: relative;
+  overflow: auto;
  
 }
 
-
-#root {
-  width: 100vw;
-
+body {
+  padding: 0 !important;
 }
-
+.MuiPaper-root {
+  box-shadow: none !important;
+}
 a {
   font-weight: 500;
-  color: #bf922a;
+  color: #F7F4EF;
   text-decoration: inherit;
 }
 a:hover {
@@ -43,11 +43,15 @@ body {
 h1 {
   font-size: 2rem;
   line-height: 1.1;
-  color:#bf922a;
-  -webkit-text-stroke: 1px #020101;
+  color:#FEAA00;
+  -webkit-text-stroke: 1px #141823;
 }
 li {
   list-style-type: none;
+}
+
+.stats-cont h5 {
+  font-size: 1.3rem;
 }
 button {
   border-radius: 8px;
@@ -56,15 +60,20 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #572d6a;
   cursor: pointer;
   transition: border-color 0.25s;
   width: 10rem;
   outline: none !important;
+
 }
+
 button:hover {
   border-color: #bf922a;
+  color: #ffc249;
+  background-color: #633678;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
@@ -77,9 +86,10 @@ button:focus-visible {
   justify-content: center;
   left: 0;
   top: 0;
-  width: 100vw;
+  width: 100%;
   height: fit-content;
   background-color: #302f2f;
+  background-color: #572d6a;
   padding: 0.3rem 0;
 }
 
@@ -95,15 +105,15 @@ button:focus-visible {
   width: 100vw;
 }
 
-/* img {
+.champion-info img {
   width: 380px;
   height: 380px;
   border-radius: 8px;
   object-fit: cover;
-} */
+}
 .type-select {
-  color: rgba(255, 255, 255)!important;
-  background-color: #1a1a1a !important;
+  /* color: rgba(255, 255, 255)!important; */
+  /* background-color: #1a1a1a !important; */
   border-radius: 8px !important;
   width: 210px;
 }
@@ -111,8 +121,8 @@ button:focus-visible {
 .outer-cont {
   display: flex;
   align-items: flex-start;
-  justify-content:space-around;
-  gap: 2rem;
+  justify-content: center;
+  gap: 2.5rem;
   padding: 1rem 3rem 3rem 3rem;
   flex-wrap: wrap;
 }
@@ -127,10 +137,12 @@ button:focus-visible {
  
 }
 .champ-cont button {
-  color: rgba(255, 255, 255);
+  color: #FEAA00;
+
 }
 .build-cont {
   width: fit-content;
+  margin-top: 1rem;
 }
 .build-cont h3 {
   width: fit-content;
@@ -139,23 +151,26 @@ button:focus-visible {
 }
 
 .champion-info h3 {
-  font-weight: 900;
+  font-weight: 600;
   margin: 0;
   padding: 0.65rem;
   font-size: 1.85rem;
-  -webkit-text-stroke: 1px #020101;
+  line-height: 5rem;
+  letter-spacing: 2px;
 }
 
 .champion-info p {
   margin-top: 0;
-  font-size: 0.8rem;
+  line-height: 15px;
+  letter-spacing: -1px;
+  font-size: 1.25rem;
 }
 .filter-cont {
-  border: 1px solid #1a1a1a;
+  /* border: 1px solid #1a1a1a; */
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: rgb(12, 12, 12);
+  /* background-color: rgb(12, 12, 12); */
 }
 
 .sub-group {
@@ -171,7 +186,7 @@ button:focus-visible {
 
 }
 .MuiFormLabel-root {
-  color: rgba(255, 255, 255) !important;   
+  /* color: rgba(255, 255, 255) !important;    */
   border-bottom: 1px solid rgba(255, 255, 255, 0.87);
 }
 
@@ -183,39 +198,33 @@ button:focus-visible {
 }
 
  h5 {
-  background-color: #302f2f;
+  /* background-color: #302f2f; */
   margin-top: 0;
   padding: 5px 0;
+
+    margin-bottom: 0px;
 }
 
-.h5 {
-  margin-bottom: 0px;
-}
 
 .stats-cont {
   flex-basis: 25%;
-  background-color: rgb(12, 12, 12);
   min-height: 226px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.outer-cont h5 {
+  font-size: 1.3rem;
+  padding: 0.5rem 0 1.2rem 0;
 }
 
 
 .stats-flex {
-  display: flex;
-  justify-content: flex-start;
-  gap: 15px;
-  text-wrap: nowrap;
-  flex-wrap: wrap;
-  padding: 1rem;
+  padding: 1rem 0 3rem 0;
+  text-align: start;
 }
-
-.stats-flex  > div {
-  flex: 1 1 45%;
-  background-color: #302f2f;
-  padding: 2px 4px;
-  border-radius: 4px;
-  max-width: 269px;
-  
-} 
 
 
   ul {
@@ -226,6 +235,8 @@ button:focus-visible {
 
 .item {
   position: relative;
+  width: 130px;
+  height: 130px;
 }
 
 .default {
@@ -244,8 +255,8 @@ button:focus-visible {
   flex-wrap: wrap;
   max-width: 500px;
   justify-content: space-evenly;
-  background-color: rgb(12, 12, 12);
-  padding: 1rem;
+  background-color: #141823;
+  padding: 1.25rem 1rem;
   border-radius: 8px;
   min-width: fit-content;
   margin-bottom: 4px;
@@ -260,10 +271,9 @@ tr:hover {
 
 
 .build-flex h6 {
-  background-color: #302f2f;
-  width: 100%;
   text-wrap: nowrap;
-  padding: 3px 0;
+  padding: 0px 3px;
+  text-align: center;
   margin: 0;
 }
 
@@ -276,13 +286,14 @@ tr:hover {
 .tooltip {
   position: absolute;
   background-color: #0b0b0b;
-  opacity: 0.8;
+  opacity: 0.9;
   right: -80px;
   top: -35px;
   padding: 5px;
   z-index: 999;
   width: 100%;
   border-radius: 8px;
+  color: #F7F4EF;
 }
 .tooltip span {
   font-size: 0.9rem;
@@ -303,14 +314,14 @@ tr:hover {
 
 .nav {
   margin-top: 83px;
-  background-color:#1a1a1a;
+  background-color:#141823;
   display: flex;
   justify-content: space-evenly;
   padding: 5px 0;
   width: 100%;
 }
 
-.middle-flex {
+.mlast-flex {
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -319,7 +330,6 @@ tr:hover {
 }
 .name-select {
 
-  background-color: rgb(12, 12, 12);
   max-width: fit-content;
   align-self: flex-end;
   margin-top: 2rem;
@@ -329,12 +339,15 @@ tr:hover {
   height: 600px;
   min-height: 600px;
   overflow: scroll;
-  background-color: #1a1a1a !important;
 }
 
 table {
   height: max-content;
   width: max-content;
+}
+
+.table-header * {
+    background-color:#302f2f !important;
 }
 
 
@@ -344,7 +357,7 @@ table {
 }
 
 .MuiTableRow-hover:hover {
-  background-color: rgb(65, 63, 54) !important;
+  background-color: #21242c !important;
 }
 
 tr {
@@ -364,7 +377,6 @@ tr {
 
 
 .table-header * {
-  background-color: #1a1a1a !important;
   font-weight: 600 !important;
 }
 
@@ -406,7 +418,7 @@ flex-direction: row !important;
 }
 
 .filters-flex > * {
-  background-color: #302f2f;
+  /* background-color: #302f2f; */
   padding: 0.5rem 1rem 0rem 1rem;
   border-radius: 8px;
   box-shadow: rgba(59, 59, 58, 0.24) 0px 3px 8px;
@@ -478,6 +490,9 @@ div.err-div:hover {
   }
   .err-div {
     align-self: flex-start !important;
+  }
+  .forMedia button {
+    align-self: center !important;
   }
 }
 

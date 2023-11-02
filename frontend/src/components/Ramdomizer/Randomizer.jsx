@@ -86,9 +86,9 @@ function Randomizer() {
           null
         }
 
-        <button onClick={getRandom}>Randomize</button>
+        <button className='random-btn' onClick={getRandom}>Randomize</button>
         </div>
-        <div className='middle-flex'>
+        <div className='last-flex'>
         <Stats items={build}/>
       
         <div className='filters'>
