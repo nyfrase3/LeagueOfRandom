@@ -20,25 +20,28 @@ Before you can use League of Random, make sure you have the following installed 
    ```
 
 2. Start the backend server:
+   
    ```bash
    node index.js
    ```
 
 4. Navigate to the frontend/ directory:
-     ```bash
-     cd frontend
-     ```
+   
+   ```bash
+    cd frontend
+    ```
    
 6. npm install the frontend dependencies:
- ```bash
-  npm install
-  ```
+   
+   ```bash
+    npm install
+   ```
 
 8. Start the frontend development server:
 
-  ```bash 
-  npm run dev
-  ```
+   ```bash 
+   npm run dev
+   ```
 
 ### Usage
 
