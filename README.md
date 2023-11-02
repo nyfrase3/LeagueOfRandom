@@ -18,8 +18,13 @@ Before you can use League of Random, make sure you have the following installed 
    git clone https://github.com/yourusername/league-of-random.git
    cd league-of-random
    ```
-
-2. Start the backend server:
+2. Install the backend dependencies:
+   
+    ```bash
+    npm install
+   ```
+    
+3. Start the backend server:
    
    ```bash
    node index.js
@@ -31,13 +36,13 @@ Before you can use League of Random, make sure you have the following installed 
     cd frontend
     ```
    
-6. npm install the frontend dependencies:
+5. Install the frontend dependencies:
    
    ```bash
     npm install
    ```
 
-8. Start the frontend development server:
+6. Start the frontend development server:
 
    ```bash 
    npm run dev
