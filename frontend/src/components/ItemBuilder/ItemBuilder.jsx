@@ -5,6 +5,8 @@ import ItemsTable from './ItemsTable';
 import ItemFilters from './ItemFilters'
 import Build from '../Build';
 import Stats from '../Stats';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleXmark} from '@fortawesome/free-solid-svg-icons';
 import AddItemForm from './AddItemForm';
 
 const shuffleArray = array => {
@@ -198,7 +200,7 @@ const handleAddBuild = () => {
     <ItemFilters showOnly={showOnly}  handleChange={handleShowOnlyChange} showZero={showZero} setShowZero={setShowZero} handleChecked={handleChecked} />
     <div style={{height: '25px'}}>
     {zeroError && 
-    <span onClick={() => setZeroError('')} style= {{color: '#FF4500', cursor: 'pointer'}} className='error'>{zeroError}</span>
+    <span onClick={() => setZeroError('')} style= {{color: '#FF4500', cursor: 'pointer', fontSize: '0.85rem'}} className='error'><FontAwesomeIcon icon={faCircleXmark} style={{paddingRight: '5px'}}/>{zeroError}</span>
     }
     </div>
     </div>
