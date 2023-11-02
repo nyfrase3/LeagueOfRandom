@@ -67,6 +67,7 @@ const ItemBuilder = () => {
       console.log(e.target.value)
       const val = e.target.value;
       setShowOnly(val)
+      setZeroError('')
       let copy = [...allItems]
       let filtered = filterByCategory(val, copy)
       if (!showZero && sortBy.field != 'name' && sortBy.field != 'random') {
