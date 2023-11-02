@@ -29,10 +29,14 @@ a {
   color: #F7F4EF;
   text-decoration: inherit;
 }
-a:hover {
-  color: #bf922a;
+
+a:hover, .sign-up:hover {
+  color: #bf922a !important;
 }
 
+.outer-cont .MuiCheckbox-root.Mui-checked {
+  color: #572d6a !important;
+}
 body {
   margin: 0;
   padding-top: 1rem;
@@ -40,7 +44,7 @@ body {
   padding: 0;
 }
 
-h1 {
+.header h1 {
   font-size: 2rem;
   line-height: 1.1;
   color:#FEAA00;
@@ -56,8 +60,9 @@ li {
 button {
   border-radius: 8px;
   border: 1px solid transparent;
-  padding: 0.7em 1.2em;
-  font-size: 1em;
+  padding: 0.5em 1.2em;
+  font-size: 1.1rem;
+  line-height: 2rem;
   font-weight: 500;
   font-family: inherit;
   background-color: #572d6a;
@@ -92,7 +97,6 @@ button:focus-visible {
   top: 0;
   width: 100%;
   height: fit-content;
-  background-color: #302f2f;
   background-color: #572d6a;
   padding: 0.3rem 0;
 }
@@ -159,7 +163,7 @@ button:focus-visible {
   margin: 0;
   padding: 0.65rem;
   font-size: 1.85rem;
-  line-height: 5rem;
+  line-height: 3.5rem;
   letter-spacing: 2px;
 }
 
@@ -194,6 +198,9 @@ button:focus-visible {
   border-bottom: 1px solid rgba(255, 255, 255, 0.87);
 }
 
+.forMedia .MuiRadio-root, .forMedia .MuiCheckbox-root {
+  color: white;
+}
 
 .filters {
   display: flex;
@@ -221,6 +228,7 @@ button:focus-visible {
 
 .outer-cont h5 {
   font-size: 1.3rem;
+  line-height: 3rem;
   padding: 0.5rem 0 1.2rem 0;
 }
 
@@ -360,6 +368,7 @@ table {
   font-size: 13px !important;
 }
 
+
 .MuiTableRow-hover:hover {
   background-color: #21242c !important;
 }
@@ -481,6 +490,15 @@ flex-direction: row !important;
 
 div.err-div:hover {
   background-color: #FF4500;
+}
+
+.modal-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #252424cc;
+  height: 100%;
+  width: 100vw;
 }
 
 @media screen and (max-width: 1575px) {
