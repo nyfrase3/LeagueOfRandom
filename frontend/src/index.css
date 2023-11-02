@@ -60,8 +60,9 @@ li {
 button {
   border-radius: 8px;
   border: 1px solid transparent;
-  padding: 0.7em 1.2em;
-  font-size: 1em;
+  padding: 0.5em 1.2em;
+  font-size: 1.1rem;
+  line-height: 2rem;
   font-weight: 500;
   font-family: inherit;
   background-color: #572d6a;
@@ -197,6 +198,9 @@ button:focus-visible {
   border-bottom: 1px solid rgba(255, 255, 255, 0.87);
 }
 
+.forMedia .MuiRadio-root, .forMedia .MuiCheckbox-root {
+  color: white;
+}
 
 .filters {
   display: flex;
@@ -224,6 +228,7 @@ button:focus-visible {
 
 .outer-cont h5 {
   font-size: 1.3rem;
+  line-height: 3rem;
   padding: 0.5rem 0 1.2rem 0;
 }
 

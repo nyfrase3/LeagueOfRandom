@@ -21,7 +21,7 @@ const SignUp = ({setShowModal}) => {
   return (
     <>
     <div className='modal-backdrop' onClick={() => setShowModal(false)} style={{zIndex: '900'}}></div>
-    <Container component="main" maxWidth="xs" style={{backgroundColor: '#788402', color: '#F7F4EF', position: 'absolute', padding: '1.5rem 2rem 2.5rem 2rem', borderRadius: '10px', top: '3rem', left: '50%', width: '444px',
+    <Container component="main" maxWidth="xs" style={{backgroundColor: '#788402', color: '#F7F4EF', position: 'absolute', padding: '1.5rem 2rem 2.5rem 2rem', borderRadius: '10px', top: '5rem', left: '50%', width: '444px',
     marginLeft: '-222px', overflow: 'visible', zIndex: '9999'}}>
            <Typography component="h1" variant="h5" style={{color: '#0b0b0b', fontSize: '1.6rem'}}>
             Sign up

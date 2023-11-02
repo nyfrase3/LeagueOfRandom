@@ -119,13 +119,13 @@ const ItemFilters = ({boots, setBoots, mainStat, setMainStat, none, setNone, all
 
 
   return (
-    <div className='filter-cont'>
+    <div className='filter-cont' >
 
     <h5>Item Filters</h5>
 
-    <Box sx={ style } size="small">
+    <Box sx={ style } size="small" style={{color: '#141823'}}>
         <FormControl fullWidth variant="filled">
-        <InputLabel id="type-select" className="label">Boots</InputLabel>
+        <InputLabel id="type-select" className="label"  >Boots</InputLabel>
         <Select
             labelId="boots-select"
             id="boots-select"
@@ -185,26 +185,28 @@ const ItemFilters = ({boots, setBoots, mainStat, setMainStat, none, setNone, all
         </Select>
         </FormControl>
 
-   <InputLabel id="class-select" className="label">Sub Stats
+   <InputLabel id="class-select" className="label" style={{fontSize: '1.1rem', lineHeight: '2.7rem', }} >Sub Stats
    <FormGroup className='sub-group'>
           <FormControlLabel
             control={
               <Checkbox checked={all} onChange={handleAllChecked} name="all" />
             }
             label="All"
+            style={{borderBottom: '1px solid #141823'}}
           />
           <FormControlLabel
             control={
               <Checkbox checked={none} onChange={handleNoneChecked} name="none" />
             }
             label="None"
+            style={{borderBottom: '1px solid #141823'}}
           />
           {
             err && <span className='error' onClick={ ()=> setErr(null)} style={{ color: '#FF4500', cursor: 'pointer', fontSize: '0.7rem'}}> <FontAwesomeIcon icon={faCircleXmark} /> {err}</span>
           }
             </FormGroup>
    </InputLabel>
-        <FormGroup>
+        <FormGroup >
           <FormControlLabel
             control={
               <Checkbox checked={subStats.attackdamage} onChange={handleSubStatChange} name="attackdamage" />
