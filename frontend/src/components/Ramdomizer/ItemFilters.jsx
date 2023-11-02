@@ -4,7 +4,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleXmark} from '@fortawesome/free-regular-svg-icons';
+import { faCircleXmark} from '@fortawesome/free-solid-svg-icons';
 import Select from '@mui/material/Select';
 
 import FormGroup from '@mui/material/FormGroup';
@@ -78,6 +78,7 @@ const ItemFilters = ({boots, setBoots, mainStat, setMainStat, none, setNone, all
 
   const handleSubStatChange = (e) => {
  {
+    if (mainStat == 'ALL') return;
       setSubStats({
         ...subStats,
         [e.target.name]: e.target.checked,

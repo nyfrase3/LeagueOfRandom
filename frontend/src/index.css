@@ -40,7 +40,7 @@ body {
   padding: 0;
 }
 
-h1 {
+.header h1 {
   font-size: 2rem;
   line-height: 1.1;
   color:#FEAA00;
@@ -481,6 +481,15 @@ flex-direction: row !important;
 
 div.err-div:hover {
   background-color: #FF4500;
+}
+
+.modal-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #252424cc;
+  height: 100%;
+  width: 100vw;
 }
 
 @media screen and (max-width: 1575px) {
