@@ -45,8 +45,6 @@ const ItemBuilder = () => {
   if (currentBuild.every(i => i.id > 0)) {
     isBuildFull = true;
   }
-
-  console.log(isBuildFull + ' the build is full?')
   function scrollToTop() {
     if (tableRef.current) {
       tableRef.current.scrollTop = 0;
