@@ -5,22 +5,62 @@ const fs = require('fs');
 const https = require("https"); 
 const bodyParser = require("body-parser");
 const bcrypt = require('bcrypt');
+const passport = require('passport');
+const session = require('express-session');
 
 require('dotenv').config();
 
 
 const app = express();
-app.use(cors());
+app.use(express.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(bodyParser.json());
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true,
+}));
+
+app.use( session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    path: '/',
+    maxAge: 24 * 60 * 60 * 1000, // 1 day 
+  }
+}))
+
+const initializePassport = require('./passport-config');
+
+initializePassport(
+  passport,
+  getUserByName,
+  // getUserById
+)
+
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 app.listen(3000, () => console.log("Server is running"));
 
 const saltRounds = 10;
 
+app.get('/isLoggedIn', (req, res, next) => {
+  console.log('in is logged in')
+  console.log('Session data:', req.session);
+  console.log(req.isAuthenticated());
+  if (req.isAuthenticated()) { 
+    console.log(req.user);
+    res.json({ isLoggedIn: true, user: req.user }); 
+  } else {
+    console.log('User is not authenticated');
+    res.json({ isLoggedIn: false }); 
+  }
+})
 
 app.get('/randomChampion', async (req, res, next) => { //get a random champion from the pool of ALL champions
   const randomInt = getRandomNumber(1, 165);
@@ -119,7 +159,6 @@ app.post('/randomItems/:boots/:mainStat', async (req, res, next) => {
 
 app.get('/allItems', async (req, res, next) => {
   const results = await db.query('SELECT * FROM items');
-  console.log(results.rows[0])
   const data = {};
   results.rows.map( row => data[row.id] = row  );
 
@@ -191,20 +230,104 @@ async function getLegendaries (mainStat, subStats) {
 };
 
 app.post('/signUp', async (req, res, next) => {
-    const username = req.body.username || 'CorgiPartyTime';
-  const isUserResult = await db.query(`SECLECT * FROM users WHERE username = ${username}`);
-  console.log(isUserResult + ' isuser results')
-  const myPlaintextPassword = req.body.password || 'password';
-  bcrypt.hash(myPlaintextPassword, saltRounds, function(err, hash) {
-    if (hash) {
-      console.log(hash + ' is the hashed pw')
-      // await db.query('')
+    const {username, password} = req.body;
+    
+    let isUserResult;
+    try {
+      isUserResult = await db.query(`SELECT * FROM users WHERE username = '${username}'`);
+    } catch(err) {
+      console.log(err);
+    } finally {
+
+      if (isUserResult.rows.length >= 1) {
+        res.send({error: `${username} is already registered`});
+      } else {
+        bcrypt.hash(password, saltRounds, async function(err, hash) {
+          if (hash) {
+            console.log(hash + ' is the hashed pw')
+            const query = "INSERT INTO users (username, hashedpassword) VALUES ($1, $2) RETURNING *;";
+            const signUpResult = await db.query(query, [username, hash]);
+            console.log(signUpResult.rows);
+            const resultObj = signUpResult.rows[0];
+            const sessionUser = {id: resultObj.id, username: resultObj.username};
+            req.login(sessionUser, (err) => {
+              if (err) {
+                return next(err);
+              }
+            });
+            
+            res.json(sessionUser);
+          }
+        });
+    
+      }
     }
+    }
+    );
 
-});
+    app.post('/logIn', (req, res, next) => {
+      passport.authenticate('local', (err, user, info) => {
+        console.log('in post route ' + 'err: ' + err, + 'user: ' + user + ' info: '+ info);
+          if (err) {
+              return res.status(400).json({errorMessage: 'Server Error'})
+          }
+  
+          if (!user) {
+              return res.status(401).json({ errorMessage: info.message });
+          }
+  
+          req.logIn(user, (loginErr) => {
+              if (loginErr) {
+                console.log(loginErr + ': log in err')
+                  return next(loginErr);
+              }
+  
+               res.json({
+                  successMessage: info.message,
+                  user: {id: user.id, username: user.username}
+              });
+          });
+      })(req, res, next);
+  });
 
-}, [])
+  app.post('/logOut', (req, res, next) => {
+    req.logOut((err)=> {
+      if (err) {
+        next(err)
+      } else {
+        res.send({message: 'Successfully logged out'})
+      }
+    });
+  })
 
+    // app.post('/logIn', async (req, res, next) => {
+    //   const {username, password} = req.body;
+    //   // first find the user if the user does not exist send a generic error: 'incorrect login information
+    //   try {
+    //     isUserResult = await db.query(`SELECT * FROM users WHERE username = '${username}'`);
+    //   } catch(err) {
+    //     console.log(err);
+    //   } finally {
+  
+    //     if (isUserResult.rows.length <= 0) {
+    //       res.send({error: `incorrect login credentials`});
+    //     } else {
+    //       bcrypt.compare(password, )
+
+    //     }
+    // }})
+
+
+
+    async function getUserByName(username){
+      try {
+        isUserResult = await db.query(`SELECT * FROM users WHERE username = '${username}'`);
+      } catch(err) {
+        console.log(err);
+      } finally {
+        return isUserResult.rows[0];
+    }
+  }
 // one time use endpoints used to migrate data from local db to remote db 
 app.get('/api/allChampions', async (req, res, next) => {
   const namesResult = await db.query('SELECT * FROM champions ORDER BY name asc');
@@ -283,4 +406,6 @@ app.get('/api/allMythics', async (req, res, next) => {
   }); 
   res.send(result.rows);
 });
+
+
 
