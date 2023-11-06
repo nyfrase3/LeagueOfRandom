@@ -19,7 +19,7 @@ const Header = ( {handleSignUp, user, setUser}) => {
      
        </div> 
         :
-        <div style = { {position: 'absolute', bottom: '10px', right: '2rem', display:'flex', gap: '0.8rem' }}>
+        <div style = { {position: 'absolute', bottom: '10px', right: '2rem', display:'flex', gap: '2vw' }}>
           <span style={{ color:'#F7F4EF', cursor: 'pointer'}} className='sign-up' onClick={() => handleSignUp('Log In')}>Log In</span>
         <span style={{ cursor: 'pointer', color:'#F7F4EF'}} className='sign-up' onClick={() => handleSignUp('Sign Up')}>Sign Up</span>
         </div>

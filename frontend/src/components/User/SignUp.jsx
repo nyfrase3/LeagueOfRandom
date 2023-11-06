@@ -20,7 +20,7 @@ const SignUp = ({closeModal, setUser, type}) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const user = { username: username.trim(), password: password.trim()}; 
+        const user = { username: username.trim().toLowerCase(), password: password.trim()}; 
 
         if (isSignUp) {
             
@@ -55,7 +55,7 @@ const SignUp = ({closeModal, setUser, type}) => {
                 })
     
         } else { // else we are on the Log In menu
-            console.log('loggging in...')
+
             const res = await fetch(`${import.meta.env.VITE_APP_URL}logIn`, {
                 method: 'POST',
                 headers: {
@@ -67,16 +67,13 @@ const SignUp = ({closeModal, setUser, type}) => {
             const json = await res.json();
             console.log(json)
             if (json.successMessage) {
-                console.log('Successful Log In! Setting user and closing modal')
                 setUser(json.user)
                 closeModal();
             } else {
-                setSignUpError(json.errorMessage);
+                setSignUpError('Invalid Credentials');
             }
        
-        }   
-
-      
+            }   
         }
 
 
