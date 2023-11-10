@@ -15,7 +15,7 @@
   -webkit-text-size-adjust: 100%;
   position: relative;
   overflow: auto;
- 
+  height: 100vh;
 }
 
 body {
@@ -90,11 +90,9 @@ button:focus-visible {
 
 
 .header {
+  position: relative;
   display: flex;
-  position: absolute;
   justify-content: center;
-  left: 0;
-  top: 0;
   width: 100%;
   height: fit-content;
   background-color: #572d6a;
@@ -325,7 +323,6 @@ tr:hover {
 } */
 
 .nav {
-  margin-top: 83px;
   background-color:#141823;
   display: flex;
   justify-content: space-evenly;
@@ -517,4 +514,10 @@ div.err-div:hover {
 
 .about p{
   font-size: 1.5rem;
+}
+
+.MuiFilledInput-input.MuiSelect-select {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 27px;
 }

@@ -5,6 +5,7 @@ import ItemsTable from './ItemsTable';
 import ItemFilters from './ItemFilters'
 import Build from '../Build';
 import Stats from '../Stats';
+import ChampionNames from '../Ramdomizer/ChampionNames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark} from '@fortawesome/free-solid-svg-icons';
 import AddItemForm from './AddItemForm';
@@ -18,17 +19,31 @@ const shuffleArray = array => {
   }
 }
 
+const newEmptyBuild = [{id: 0}, {id: -1}, {id: -2}, {id: -3}, {id: -4}, {id: -5}];
 
-const ItemBuilder = () => {
-    
+function getBuildFromStorage  () {
+  const oldBuild = localStorage.getItem('build');
+  if (oldBuild) {
+     return (JSON.parse(oldBuild));
+  }
+}
+
+const ItemBuilder = ({user}) => {
+    console.log(user)
   const [allItems, setAllItems] = useState([]);
   const [showOnly, setShowOnly] = useState('all');
   const [filteredItems, setFilteredItems] = useState([]);
   const [sortBy, setSortBy] = useState({ field: 'name', order: 'desc'} );
   const [showZero, setShowZero] = useState(true);
   const [zeroError, setZeroError] = useState('')
+  const [champion, setChampion] = useState('');
+  const [buildMsg, setBuildMsg] = useState({
+    error:'',
+  });
 
-  const [currentBuild, setCurrentBuild] = useState([{id: 0}, {id: -1}, {id: -2}, {id: -3}, {id: -4}, {id: -5}])
+  const oldBuild = localStorage.getItem('build');
+
+  const [currentBuild, setCurrentBuild] = useState(oldBuild ? JSON.parse(oldBuild) : newEmptyBuild)
 
   const [error, setError] = useState('');
   const [showRemove, setShowRemove] = useState(false);
@@ -39,6 +54,8 @@ const ItemBuilder = () => {
 
 
   const tableRef = useRef(null);
+
+  const buildStatsRef = useRef(null);
 
   let isBuildFull = false;
 
@@ -52,6 +69,7 @@ const ItemBuilder = () => {
   }
 
     useEffect( () => {
+    
       fetch(`${import.meta.env.VITE_APP_URL}allItems`).then( res => 
       res.json()).then(json => {
         setAllItems(json)
@@ -59,17 +77,22 @@ const ItemBuilder = () => {
       })
     }, []);
 
+
+    useEffect(()=> {
+      localStorage.setItem('build', JSON.stringify(currentBuild));
+
+    }, [currentBuild]) 
+
    
 
     const handleShowOnlyChange = (e) => {
-      console.log(e.target.value)
       const val = e.target.value;
       setShowOnly(val)
       setZeroError('')
       let copy = [...allItems]
       let filtered = filterByCategory(val, copy)
       if (!showZero && sortBy.field != 'name' && sortBy.field != 'random') {
-        console.log('filtering out all 0 values')
+
         filtered = filtered.filter(item => 
           item[sortBy.field] > 0
         )
@@ -88,7 +111,6 @@ const ItemBuilder = () => {
     setShowZero(boolVal);
 
   
-    console.log('field is not name or random')
 
     if (boolVal == false) {
       let copy = filteredItems.filter(item => item[currentField] > 0);
@@ -128,21 +150,19 @@ const ItemBuilder = () => {
     sortByField(val, newOrder, copy);
 
     
-    // console.log(sorted)
     setFilteredItems(copy);
     scrollToTop();
 
 };
 
 const handleItemClick = (item) => {
-  console.log(item)
   if (item.id <= 0) return;
   itemToRemove.current = item;
   setShowRemove(true);
 }
 
 const handleRemoveClose = (action) => {
-  console.log(action)
+
   setShowRemove(false) 
   if (action == 'cancel') return;
 
@@ -158,26 +178,80 @@ const handleRemoveClose = (action) => {
 }
 
 const handleAddBuild = () => {
-  let summonerName = 'CorgiPartyTime'
-  // console.log(import.meta.env.PROD)
-  console.log(import.meta.env.VITE_RIOT_API_KEY);
-  if (import.meta.env.PROD) {
-    let url = `https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${import.meta.env.VITE_RIOT_API_KEY}`;
-    
-    const summoner = fetch(url).then(res => res.json()).then(json => console.log(json));
+  if (!champion) {
+    setBuildMsg({error: 'Select a champion for your build.'});
+    return;
   }
-  let url = `https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${import.meta.env.VITE_RIOT_API_KEY}`;
-    
-  const summoner = fetch(url).then(res => res.json()).then(json => console.log(json));
-}
+
+  if (!user) {
+    setBuildMsg({error: 'You must be logged in.'});
+    return;
+  }
+
+  const buildIds = currentBuild.map(item => item.id)
+  const newBody = {
+    user: user.username,
+    build: buildIds,
+    stats: buildStatsRef.current,
+    champion,
+    random: 'false'
+  };
+  if (newBody.stats.cost && typeof newBody.stats.cost == 'string') {
+    newBody.stats.cost = +(newBody.stats?.cost?.replace(',', ''))
+  };
+  console.log(user.username)
+  fetch(`${import.meta.env.VITE_APP_URL}saveBuild`, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    }, body: JSON.stringify(newBody),
+    credentials: 'include'
+}).then(res => {
+  if (res.ok){
+    return res.json();
+  }
+}).then(json => {
+  console.log(json)
+  if (json.error){
+    setBuildMsg({error: json.error})
+  } else {
+    setBuildMsg(json);
+  }
+
+})
+
+  };
+
+  const clearBuild = () => {
+    setCurrentBuild(newEmptyBuild);
+    nullId.current = -6;
+  };
+
+
+
 
 
   return (
     <div className='builder-container'>
       {/* <AddItemForm /> */}
       <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: '1rem'}} className='forMedia'>
-    <Build items={currentBuild} handleItemClick={handleItemClick} showRemove={showRemove} setShowRemove={setShowRemove} itemToRemove={itemToRemove.current} handleRemoveClose={handleRemoveClose}/>
-   
+        <div>
+      <Build items={currentBuild} handleItemClick={handleItemClick} showRemove={showRemove} setShowRemove={setShowRemove} itemToRemove={itemToRemove.current} 
+      handleRemoveClose={handleRemoveClose}/>
+
+        <div style={{ position:'relative', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', gap: '7px', padding: '10px 0 25px 0' }}>
+     
+        {
+          buildMsg.error ? 
+           <span style={{position: 'absolute', fontSize: '0.85rem', bottom: '0', color: '#FF4500', cursor: 'pointer'}} onClick={() => setBuildMsg({})}> <FontAwesomeIcon icon={faCircleXmark} style={{paddingRight: '5px'}}/>
+          {buildMsg.error}</span> : <span style={{position: 'absolute', fontSize: '0.85rem', bottom: '0' }}>{buildMsg.success} </span>
+          }
+       
+        <button onClick={clearBuild} style={{ }} disabled={currentBuild.every(i => i.id <= 0)}>Clear Build</button>
+         <button onClick={handleAddBuild} style={{ }} disabled={!isBuildFull}>Add Build</button>
+        </div>
+      
+      </div>
     <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center', gap: '1rem'}}>
     {
       error && 
@@ -189,15 +263,18 @@ const handleAddBuild = () => {
        
     }
       <div>
-      <Stats items={currentBuild} wide = {true}/>
+      <Stats items={currentBuild} wide = {true} buildStatsRef={buildStatsRef} />
       </div>
 
     </div>
     <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', alignItems:'center' }}>
-      {
-        isBuildFull && <button onClick={handleAddBuild}>Add Build</button>
-      }
+   
       <div >
+        <div style={{display: 'flex', alignItems: 'center', gap: '2rem'}}>
+        <ChampionNames name={champion} setName={setChampion} />
+        <div>
+        </div>
+        </div>
     <ItemFilters showOnly={showOnly}  handleChange={handleShowOnlyChange} showZero={showZero} setShowZero={setShowZero} handleChecked={handleChecked} />
     <div style={{height: '25px'}}>
     {zeroError && 
@@ -215,7 +292,7 @@ const handleAddBuild = () => {
 
 
 function filterByCategory (category, arr) {
-  console.log(category)
+
   let copy = [...arr];
   if (category == 'all'){
     return copy;

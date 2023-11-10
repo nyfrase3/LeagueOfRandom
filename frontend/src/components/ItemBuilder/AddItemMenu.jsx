@@ -27,11 +27,10 @@ const AddItemMenu = ({onClose, open, selectedId, items, selectedItem}) => {
   return (
     <Dialog onClose={onClose} open={open} maxWidth = "md" 
     hideBackdrop = {true}
-    sx=  {{ width: "fit-content", height: "fit-content", borderRadius: '8px', paddingTop: '4px', backgroundColor: 'none', position: 'fixed', top: '50%', left: '25%', transform: 'translate(-50%, -50%)' , boxShadow: 'none', textAlign: 'center'} }
-    >
+    PaperProps={{ sx: { width: "fit-content", height: "fit-content", borderRadius: '22px', backgroundColor: 'none', position: 'fixed', top: '60%', left: '25%', transform: 'translate(-50%, -50%)' , boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px', textAlign: 'center'} }}>
         <DialogTitle sx={{fontSize: '1rem', fontWeight: 600, backgroundColor: '#141823', color: '#F7F4EF', whiteSpace: 'nowrap', borderTopLeftRadius: '15px', borderTopRightRadius: '15px'}}>Add {selectedName}</DialogTitle>
-        <List sx={{ pt: 0, backgroundColor: '#141823', display: 'flex'}} >
-        <ListItem disableGutters sx={{color: 'rgb(3, 3, 3)', backgroundColor: 'rgba(255, 255, 255)', paddingBottom: '0', borderBottomLeftRadius: '2rem'}} >
+        <List sx={{ pt: 0, backgroundColor: '#F9F6F0', display: 'flex', padding: '0'}} >
+        <ListItem disableGutters sx={{color: 'rgb(3, 3, 3)', backgroundColor: '#F9F6F0', paddingBottom: '0', borderBottomLeftRadius: '2rem'}} >
           <ListItemButton
             autoFocus
             onClick={() => handleItemClick('add')}
@@ -40,7 +39,7 @@ const AddItemMenu = ({onClose, open, selectedId, items, selectedItem}) => {
           </ListItemButton>
         </ListItem>
 
-        <ListItem sx={{color: 'rgba(255, 255, 255)', padding: '0', backgroundColor: 'rgba(255, 255, 255)', borderBottomRightRadius: '2rem'}}>
+        <ListItem sx={{color: 'rgba(255, 255, 255)', padding: '0', backgroundColor: '#F9F6F0', borderBottomRightRadius: '2rem'}}>
           <ListItemButton
             autoFocus
             onClick={() => handleItemClick('cancel')}
