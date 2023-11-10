@@ -229,6 +229,45 @@ async function getLegendaries (mainStat, subStats) {
 
 };
 
+app.post('/saveBuild', async (req, res, next) => {
+  console.log(req.body);
+  const {user, build, stats, champion, random} = req.body;
+  console.log(user + ' ' + build + ' ' + stats);
+
+  const buildQuery = `INSERT INTO builds ( item1, item2, item3, item4, item5, item6, champion, random, username) VALUES ( ${build[0]}, ${build[1]}, ${build[2]}, ${build[3]}, ${build[4]}, ${build[5]}, '${champion}', ${random}, '${user}') RETURNING id;`;
+  console.log(buildQuery);
+  let buildId = null;
+  try {
+    buildId = await db.query(buildQuery);
+  } catch (err) {
+    console.log(err);
+    if (err){
+      return res.send({error: `You have already submitted this build`})
+    }
+  } 
+  if (buildId.rows) {
+    console.log(buildId.rows[0].id + ' this is the returned buildId');
+
+    const statsQuery = `INSERT INTO build_stats ( build_id, cost, abilityhaste, attackdamage, abilitypower, armor, health, lethality, magicpenetration, magicresist, mana, movespeed, percentarmorpenetration, percentattackspeed, percentbasehealthregen, percentbasemanaregen, percentcriticalstrikechance, percentcriticalstrikedamage, percenthealandshieldpower, percentlifesteal, percentmagicpenetration, percentmovespeed, percentomnivamp, percenttenacity) VALUES ( ${buildId.rows[0].id}, ${stats.cost}, ${stats.abilityhaste}, ${stats.attackdamage}, ${stats.abilitypower}, ${stats.armor}, ${stats.health}, ${stats.lethality}, ${stats.magicpenetration}, ${stats.magicresist}, ${stats.mana}, ${stats.movespeed}, ${stats.percentarmorpenetration}, ${stats.percentattackspeed}, ${stats.percentbasehealthregen}, ${stats.percentbasemanaregen}, ${stats.percentcriticalstrikechance}, ${stats.percentcriticalstrikedamage}, ${stats.percenthealandshieldpower}, ${stats.percentlifesteal}, ${stats.percentmagicpenetration}, ${stats.percentmovespeed}, ${stats.percentomnivamp}, ${stats.percenttenacity});`;
+
+    console.log(statsQuery);
+    try {
+      await db.query(statsQuery);
+    }
+    catch (err) {
+      console.log(err);
+
+    }
+    res.send({success: 'Your build was saved successfully'});
+
+  }
+
+  
+
+
+
+})
+
 app.post('/signUp', async (req, res, next) => {
     const {username, password} = req.body;
     
@@ -244,7 +283,6 @@ app.post('/signUp', async (req, res, next) => {
       } else {
         bcrypt.hash(password, saltRounds, async function(err, hash) {
           if (hash) {
-            console.log(hash + ' is the hashed pw')
             const query = "INSERT INTO users (username, hashedpassword) VALUES ($1, $2) RETURNING *;";
             const signUpResult = await db.query(query, [username, hash]);
             console.log(signUpResult.rows);

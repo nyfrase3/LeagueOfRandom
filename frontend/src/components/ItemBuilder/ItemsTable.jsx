@@ -41,7 +41,6 @@ const ItemsTable = ({items, handleSortChange, sortBy, tableRef, currentBuild, se
             return;
           }
           if (currentBuild.find( i => item.id == i.id)) { //if the item is already in the build
-            console.log('This item is already added to this build.');
             setError('This item is already added to this build.')
             window.scrollTo(0, 100)
             return;
@@ -63,7 +62,6 @@ const ItemsTable = ({items, handleSortChange, sortBy, tableRef, currentBuild, se
           }
             setSelectedId(item.id);
             setOpen(true);
-            console.log(item.id)
         }
        
 
@@ -71,7 +69,6 @@ const ItemsTable = ({items, handleSortChange, sortBy, tableRef, currentBuild, se
 
     const handleClose = (value, id) => {
         setOpen(false);
-        console.log(value + ' ' + id)
         if (value == 'cancel') {
             return;
 

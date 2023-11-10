@@ -515,3 +515,9 @@ div.err-div:hover {
 .about p{
   font-size: 1.5rem;
 }
+
+.MuiFilledInput-input.MuiSelect-select {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 27px;
+}

@@ -9,12 +9,30 @@ import React, {useState, useRef, useEffect} from 'react'
 import About from './components/About'
 import SignUp from './components/User/SignUp'
 
+// async function getLoggedInUser () {
+//   fetch(`${import.meta.env.VITE_APP_URL}isLoggedIn`, {
+//     method: 'GET',
+//     credentials: 'include', 
+//     headers: {
+//       'Content-Type': 'application/json',
+//     }
+//   }).then(res => res.json()).then(json => {
+
+//     if (json.isLoggedIn){
+//       console.log(json.user)
+//       return json.user;
+//     } else {
+//       return null;
+//     }
+//   })
+// }
+
 const App = () => {
 // console.log(import.meta.env.VITE_APP_URL);
 const [showModal, setShowModal] = useState(false)
 const [user, setUser] = useState(null);
 const modalType = useRef(null);
-
+console.log(user)
 
 const closeModal = () => {
   setShowModal(false);
@@ -25,16 +43,16 @@ const handleSignUp = (type) => {
   setShowModal(true);
 }
 
-useEffect( ()=> {
+useEffect( ()=> { 
   fetch(`${import.meta.env.VITE_APP_URL}isLoggedIn`, {
     method: 'GET',
-    credentials: 'include', // or withCredentials: true
+    credentials: 'include', 
     headers: {
       'Content-Type': 'application/json',
     }
   }).then(res => res.json()).then(json => {
     if (json.isLoggedIn){
-      setUser({id: json.id, username: json.username});
+      setUser(json.user);
     }
   })
 }, [])
@@ -51,7 +69,7 @@ useEffect( ()=> {
         }
        <Routes>
           <Route path='/' element={ <Randomizer /> } />
-          <Route path='/build' element={ <ItemBuilder / > } />
+          <Route path='/build' element={ <ItemBuilder  user={user} /> } />
           <Route path='/about' element={ <About / > } />
           <Route path='*' element={ <Randomizer /> } />
           

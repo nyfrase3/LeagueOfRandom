@@ -26,7 +26,7 @@ const statsMap = {
     "percenttenacity": "tenacity %"
 }
 
-const Stats = ({items, wide = false}) => {
+const Stats = ({items, wide = false, buildStatsRef, setBuildStats}) => {
     const totalBuildStats = { };
 
     let showItems = true;
@@ -36,18 +36,22 @@ const Stats = ({items, wide = false}) => {
     } else {
         items?.map( item => {
             Object.keys(item).map( key => {
+
                 if (statsMap[key]){
-                    let currStat = statsMap[key];
+                    // let currStat = statsMap[key];
                     showItems = true;
-                    if (!totalBuildStats[currStat]){
-                        totalBuildStats[currStat] = item[key];
+                    if (!totalBuildStats[key]) {
+                        totalBuildStats[key] = item[key];
                     } else {
-                        totalBuildStats[currStat] += item[key];
+                        totalBuildStats[key] += item[key];
                     }
                 }
     
             })
         });
+        // console.log(totalBuildStats)
+        buildStatsRef.current = totalBuildStats;
+        // setBuildStats(totalBuildStats);
         if (totalBuildStats.cost) {
             totalBuildStats.cost = totalBuildStats.cost.toLocaleString("en-US");
         }
@@ -75,9 +79,9 @@ const Stats = ({items, wide = false}) => {
                             <li key={stat} style={{ padding: "2px", lineHeight: '1.7rem'}}>
                             <span style={{fontSize: '1.3rem', letterSpacing: '-1px', marginRight:'0.2rem'}}>
                               {totalBuildStats[stat]}
-                              {stat.includes("%") ? <span>%</span> : null}
+                              {stat.includes("percent") ? <span>%</span> : null}
                             </span>
-                            <span > {stat.replace("%", "")}</span>
+                            <span > {statsMap[stat].replace("%", "")}</span>
                           </li>
                             )}
 

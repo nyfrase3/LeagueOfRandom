@@ -29,7 +29,7 @@ const AddItemMenu = ({onClose, open, selectedId, items, selectedItem}) => {
     hideBackdrop = {true}
     PaperProps={{ sx: { width: "fit-content", height: "fit-content", borderRadius: '22px', backgroundColor: 'none', position: 'fixed', top: '60%', left: '25%', transform: 'translate(-50%, -50%)' , boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px', textAlign: 'center'} }}>
         <DialogTitle sx={{fontSize: '1rem', fontWeight: 600, backgroundColor: '#141823', color: '#F7F4EF', whiteSpace: 'nowrap', borderTopLeftRadius: '15px', borderTopRightRadius: '15px'}}>Add {selectedName}</DialogTitle>
-        <List sx={{ pt: 0, backgroundColor: 'transparent', display: 'flex', paddingBottom: '0'}} >
+        <List sx={{ pt: 0, backgroundColor: '#F9F6F0', display: 'flex', padding: '0'}} >
         <ListItem disableGutters sx={{color: 'rgb(3, 3, 3)', backgroundColor: '#F9F6F0', paddingBottom: '0', borderBottomLeftRadius: '2rem'}} >
           <ListItemButton
             autoFocus
