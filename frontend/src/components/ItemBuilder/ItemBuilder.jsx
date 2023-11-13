@@ -29,7 +29,7 @@ function getBuildFromStorage  () {
 }
 
 const ItemBuilder = ({user}) => {
-    console.log(user)
+
   const [allItems, setAllItems] = useState([]);
   const [showOnly, setShowOnly] = useState('all');
   const [filteredItems, setFilteredItems] = useState([]);

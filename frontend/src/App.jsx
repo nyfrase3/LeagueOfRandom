@@ -8,39 +8,32 @@ import './App.css'
 import React, {useState, useRef, useEffect} from 'react'
 import About from './components/About'
 import SignUp from './components/User/SignUp'
+import DeleteAccount from './components/User/DeleteAccount'
 
-// async function getLoggedInUser () {
-//   fetch(`${import.meta.env.VITE_APP_URL}isLoggedIn`, {
-//     method: 'GET',
-//     credentials: 'include', 
-//     headers: {
-//       'Content-Type': 'application/json',
-//     }
-//   }).then(res => res.json()).then(json => {
-
-//     if (json.isLoggedIn){
-//       console.log(json.user)
-//       return json.user;
-//     } else {
-//       return null;
-//     }
-//   })
-// }
 
 const App = () => {
 // console.log(import.meta.env.VITE_APP_URL);
 const [showModal, setShowModal] = useState(false)
 const [user, setUser] = useState(null);
 const modalType = useRef(null);
-console.log(user)
+const [showDeleteAccount, setShowDeleteAccount] = useState(false);
 
 const closeModal = () => {
   setShowModal(false);
 }
 
+
 const handleSignUp = (type) => {
   modalType.current = type;
   setShowModal(true);
+}
+
+const closeDeleteAccount = () => {
+  setShowDeleteAccount(false);
+}
+
+const handleDeleteAccount = () => {
+  setShowDeleteAccount(true);
 }
 
 useEffect( ()=> { 
@@ -61,11 +54,16 @@ useEffect( ()=> {
     <>
     <BrowserRouter>
     <div className='app-wrapper' style={{display: 'flex', flexDirection: 'column', position: 'relative', margin: '0', padding: '0'}}>
-        <Header handleSignUp={handleSignUp} user={user} setUser={setUser}/>
+        <Header handleSignUp={handleSignUp} user={user} setUser={setUser} handleDeleteAccount={handleDeleteAccount}/>
         <Nav />  
         {
           showModal && 
           <SignUp closeModal={closeModal} setUser={setUser} type={modalType.current}/>
+        }
+
+        {
+          showDeleteAccount && 
+          <DeleteAccount  closeModal={closeDeleteAccount} user={user}/>
         }
        <Routes>
           <Route path='/' element={ <Randomizer /> } />

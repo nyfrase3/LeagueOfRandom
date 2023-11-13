@@ -51,7 +51,7 @@ const saltRounds = 10;
 
 app.get('/isLoggedIn', (req, res, next) => {
   console.log('in is logged in')
-  console.log('Session data:', req.session);
+  // console.log('Session data:', req.session);
   console.log(req.isAuthenticated());
   if (req.isAuthenticated()) { 
     console.log(req.user);
@@ -261,12 +261,7 @@ app.post('/saveBuild', async (req, res, next) => {
     res.send({success: 'Your build was saved successfully'});
 
   }
-
-  
-
-
-
-})
+});
 
 app.post('/signUp', async (req, res, next) => {
     const {username, password} = req.body;
@@ -336,7 +331,37 @@ app.post('/signUp', async (req, res, next) => {
         res.send({message: 'Successfully logged out'})
       }
     });
-  })
+  });
+
+  app.post('/deleteAccount', async (req, res, next) => {
+    const {username, password } = req.body;
+
+    passport.authenticate('local', async (err, user, info) => {
+      console.log('in post route ' + 'err: ' + err, + 'user: ' + user + ' info: '+ info);
+        if (err) {
+            return res.status(400).json({errorMessage: 'Server Error'})
+        }
+
+        if (!user) {
+          console.log('password incorrect when deleting account')
+            return res.status(401).json({ errorMessage: info.message });
+        }
+        const deletedUser = await db.query(`DELETE FROM users WHERE username = '${username}' RETURNING *`);
+        console.log('DELETED user ' + deletedUser.username);
+
+        req.logOut(user, (err) => {
+            if (err) {
+              console.log(err + ': delete user err')
+                return next(err);
+            }
+
+             res.json({
+                successMessage: info.message,
+            });
+        });
+    })(req, res, next);
+
+  });;
 
     // app.post('/logIn', async (req, res, next) => {
     //   const {username, password} = req.body;
