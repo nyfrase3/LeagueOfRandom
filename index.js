@@ -51,7 +51,7 @@ const saltRounds = 10;
 
 app.get('/isLoggedIn', (req, res, next) => {
   console.log('in is logged in')
-  // console.log('Session data:', req.session);
+  console.log('Session data:', req.session);
   console.log(req.isAuthenticated());
   if (req.isAuthenticated()) { 
     console.log(req.user);
@@ -263,6 +263,53 @@ app.post('/saveBuild', async (req, res, next) => {
   }
 });
 
+app.get('/builds/:username', async (req, res, next) => {
+  const { username } = req.params;
+  let buildsResult;
+  try {
+    buildsResult = await db.query(`SELECT builds.id, builds.item1, builds.item2, builds.item3, builds.item4, builds.item5, builds.item6, builds.champion, builds.random, builds.date_created, builds.username FROM builds WHERE builds.username = '${username}' ORDER BY date_created DESC`);
+  } catch (e) {
+     console.log(e);
+  } finally {
+    if (buildsResult?.rows.length >= 1) {
+       await Promise.all(buildsResult.rows.map(async (build, index) => {
+        const buildId = build.id;
+        const buildStatsResult = await db.query(`SELECT * FROM build_stats WHERE id = ${buildId}`);
+        buildsResult.rows[index]['totalStats'] = buildStatsResult.rows[0];
+        let itemsArr = [];
+        for (let i = 1; i <= 6; i++) {
+          let itemResult = await db.query(`SELECT * FROM items WHERE items.id = ${build[`item${i}`]}`);
+          if (itemResult.rows.length > 0) {
+            itemsArr.push(itemResult.rows[0]);
+          }
+        }
+        buildsResult.rows[index][`items`] = itemsArr;
+      }));
+      res.send(buildsResult.rows);
+    } else {
+      res.send([])
+    }
+  }
+
+});
+
+app.delete('/builds/:buildId', async (req, res, next) => {
+  const {buildId} = req.params;
+  console.log(buildId)
+  console.log(req.isAuthenticated())
+  if (req.isAuthenticated()) {
+    console.log(req.user)
+    const deleteResult = await db.query(`DELETE FROM builds WHERE id = ${buildId} AND username = '${req.user.username}'`);
+    res.send({success: 'build deleted successfully'});
+  } else { //the user is not authenticated do not allow the deletion
+    console.log('this user is not authenticated');
+    res.send({error: 'you must be logged in to delete content'})
+  }
+
+
+});
+
+
 app.post('/signUp', async (req, res, next) => {
     const {username, password} = req.body;
     
@@ -324,14 +371,25 @@ app.post('/signUp', async (req, res, next) => {
   });
 
   app.post('/logOut', (req, res, next) => {
+    console.log('Is authenticated before logOut:', req.isAuthenticated());
     req.logOut((err)=> {
       if (err) {
+        console.log('there was an error logging you out')
         next(err)
       } else {
+        req.session.destroy((err) => {
+          if (err) {
+            console.log('Error destroying session:', err);
+            return next(err);
+          }
+        })
+        console.log('user logged out successfully')
+        console.log('Is authenticated after logOut:', req.isAuthenticated());
         res.send({message: 'Successfully logged out'})
       }
     });
-  });
+  
+});
 
   app.post('/deleteAccount', async (req, res, next) => {
     const {username, password } = req.body;
@@ -346,7 +404,7 @@ app.post('/signUp', async (req, res, next) => {
           console.log('password incorrect when deleting account')
             return res.status(401).json({ errorMessage: info.message });
         }
-        const deletedUser = await db.query(`DELETE FROM users WHERE username = '${username}' RETURNING *`);
+        const deletedUser = await db.query(`DELETE FROM users WHERE username = '${username}' RETURNING *;`);
         console.log('DELETED user ' + deletedUser.username);
 
         req.logOut(user, (err) => {
@@ -362,25 +420,6 @@ app.post('/signUp', async (req, res, next) => {
     })(req, res, next);
 
   });;
-
-    // app.post('/logIn', async (req, res, next) => {
-    //   const {username, password} = req.body;
-    //   // first find the user if the user does not exist send a generic error: 'incorrect login information
-    //   try {
-    //     isUserResult = await db.query(`SELECT * FROM users WHERE username = '${username}'`);
-    //   } catch(err) {
-    //     console.log(err);
-    //   } finally {
-  
-    //     if (isUserResult.rows.length <= 0) {
-    //       res.send({error: `incorrect login credentials`});
-    //     } else {
-    //       bcrypt.compare(password, )
-
-    //     }
-    // }})
-
-
 
     async function getUserByName(username){
       try {

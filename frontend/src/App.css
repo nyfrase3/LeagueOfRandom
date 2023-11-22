@@ -38,3 +38,7 @@
   color: #888;
 }
 
+.build-tbl th {
+  /* height: 80px; */
+  min-width: 80px;
+}

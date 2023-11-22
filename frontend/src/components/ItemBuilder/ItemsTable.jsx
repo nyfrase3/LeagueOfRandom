@@ -72,7 +72,7 @@ const ItemsTable = ({items, handleSortChange, sortBy, tableRef, currentBuild, se
         if (value == 'cancel') {
             return;
 
-        } else { //value must equal 'add' 
+        } else if (value == 'add'){ //value must equal 'add' 
             //setSelectedId(id);
             addItemIfShould(selectedItemRef.current);
   
@@ -99,7 +99,7 @@ const ItemsTable = ({items, handleSortChange, sortBy, tableRef, currentBuild, se
   ref={tableRef}
   >
 
-    <Table aria-label="simple table" stickyHeader sx={{position: 'relative', }}
+    <Table aria-label="simple table" stickyHeader sx={{position: 'relative' }}
      > 
       <TableHead className='table-header' >
        
