@@ -1,14 +1,14 @@
+import React, {useState, useRef, useEffect} from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Randomizer from './components/Ramdomizer/Randomizer'
 import Nav from './components/Nav'
 import ItemBuilder from './components/ItemBuilder/ItemBuilder'
 import Header from './components/Header'
 import './App.css'
-
-import React, {useState, useRef, useEffect} from 'react'
 import About from './components/About'
 import SignUp from './components/User/SignUp'
 import DeleteAccount from './components/User/DeleteAccount'
+import UserBuilds from './components/User/UserBuilds'
 
 
 const App = () => {
@@ -63,12 +63,13 @@ useEffect( ()=> {
 
         {
           showDeleteAccount && 
-          <DeleteAccount  closeModal={closeDeleteAccount} user={user}/>
+          <DeleteAccount  closeModal={closeDeleteAccount} user={user} setUser={setUser}/>
         }
        <Routes>
-          <Route path='/' element={ <Randomizer /> } />
+          <Route path='/' element={ <Randomizer user={user}/> } />
           <Route path='/build' element={ <ItemBuilder  user={user} /> } />
           <Route path='/about' element={ <About / > } />
+          <Route path='/builds/:username' element={ <UserBuilds user={user}/> }/>
           <Route path='*' element={ <Randomizer /> } />
           
        </ Routes>

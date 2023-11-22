@@ -7,7 +7,7 @@ import { faEyeSlash, faEye} from '@fortawesome/free-solid-svg-icons';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 
-const DeleteAccount = ({closeModal, user }) => {
+const DeleteAccount = ({closeModal, user, setUser }) => {
     const [error, setError] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
@@ -16,6 +16,13 @@ const DeleteAccount = ({closeModal, user }) => {
 
     if (user) {
         payload.username = user.username;
+    };
+
+    const delayedClose = () => {
+      setTimeout(() => {
+        setUser(null);
+        closeModal();
+      }, 1500)
     }
 
     const handleSubmit = (e) => {
@@ -33,7 +40,11 @@ const DeleteAccount = ({closeModal, user }) => {
             console.log(json)
             if (json.errorMessage) {
                 setError(json.errorMessage)
-            }}
+            } else {
+              setError('account deleted')
+              delayedClose()
+            }
+          }
             );
     }
 

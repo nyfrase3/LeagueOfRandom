@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import ListSubheader from "@mui/material/ListSubheader";
@@ -8,11 +9,18 @@ import { ListItem, ListItemButton, ListItemText } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignOutAlt, faTrash } from '@fortawesome/free-solid-svg-icons';
 
-const UserMenu = ({user, handleLogOut, menuRef, handleDeleteAccount}) => {
+const UserMenu = ({user, handleLogOut, menuRef, handleDeleteAccount, setShowUserMenu}) => {
+
+  const navigate = useNavigate();
+
+  const handleViewBuilds = () => {
+    navigate(`/builds/${user.username}`);
+    setShowUserMenu(false);
+  }
 
   return (
    
-    <Box ref = {menuRef} sx={{ display: 'flex', backgroundColor: '#cccccc', position: 'absolute', top: '20px', right: '10px', borderRadius: '12px', boxShadow: 'rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px' 
+    <Box ref = {menuRef} sx={{ display: 'flex', backgroundColor: '#cccccc', position: 'absolute', top: '20px', right: '10px', borderRadius: '12px', boxShadow: 'rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px', zIndex: '999' 
     }} onClick={ e => e.stopPropagation()}>
         <List  subheader={
             <ListSubheader
@@ -27,7 +35,7 @@ const UserMenu = ({user, handleLogOut, menuRef, handleDeleteAccount}) => {
             </ListSubheader>
           }>
             <ListItem style={{fontSize: '0.6rem', padding: '0'}}>
-                <ListItemButton style={{padding: '0'}}>
+                <ListItemButton style={{padding: '0'}} onClick={handleViewBuilds}>
                 <ListItemText  primary={'view your builds'} style={{fontSize: '0.6rem', color: 'blue', cursor: 'pointer' , whiteSpace: 'nowrap', padding: '5px 0 5px 1.3rem'}} />
                 </ListItemButton>
             </ListItem>

@@ -16,8 +16,9 @@
   -webkit-text-size-adjust: 100%;
   position: relative;
   overflow: auto;
-  height: 100vh;
+  /* height: 100vh; */
 }
+
 
 body {
   padding: 0 !important;
@@ -487,6 +488,7 @@ flex-direction: row !important;
 }
 
 div.err-div:hover {
+  background-color: #922a04;
   background-color: #FF4500;
 }
 
@@ -521,4 +523,15 @@ div.err-div:hover {
   display: flex;
   justify-content: space-around;
   padding-top: 27px;
+}
+
+.build-btn {
+  cursor: pointer;
+}
+.build-btn:hover {
+  background-color: #a1a1a1 !important;
+}
+
+ .trash-icon {
+  font-size: 1.35rem !important;
 }

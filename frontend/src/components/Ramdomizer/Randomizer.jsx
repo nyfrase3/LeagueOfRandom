@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 import '../../App.css'
 import Champion from './Champion';
@@ -11,7 +11,7 @@ import Build from '../Build'
 import Stats from '../Stats';
 
 
-function Randomizer() {
+function Randomizer({user}) {
 
   const [champion, setChampion] = useState(null);
   const [type, setType] = useState('ALL');
@@ -34,6 +34,8 @@ function Randomizer() {
     attackdamage: true,
     abilitypower: true,
   })
+
+  const buildStatsRef = useRef(null);
   
 
 
@@ -61,6 +63,22 @@ function Randomizer() {
 
   }
 
+  const saveBuild = () => {
+    const buildIds = build.map(item => item.id);
+    const newBody = {
+      user: user.username,
+      build: buildIds,
+      stats: buildStatsRef.current,
+      champion: champion.name,
+      random: 'true'
+    };
+  }
+
+  useEffect(()=> {
+    console.log(buildStatsRef.current)
+    Object.values( (k, v) => console.log(`${k}: ${v}`) );
+  }, [buildStatsRef.current])
+
   return (
     <>
     <div className='page'>
@@ -85,11 +103,16 @@ function Randomizer() {
           :
           null
         }
-
+        <div style={{ display: 'flex', gap: '3px'}}>
         <button className='random-btn' onClick={getRandom}>Randomize</button>
+        {
+          user && champion &&  
+          <button className='random-btn' onClick={()=> {}}>Save Build</button>
+        }
+        </div>
         </div>
         <div className='last-flex'>
-        <Stats items={build}/>
+        <Stats items={build} buildStatsRef={buildStatsRef}/>
       
         <div className='filters'>
    

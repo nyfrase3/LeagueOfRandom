@@ -1,17 +1,28 @@
 import React, {useState, useRef, useEffect} from 'react'
+import { useLocation, useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import UserMenu from './User/UserMenu';
 
 const Header = ( {handleSignUp, user, setUser, handleDeleteAccount}) => {
 
   const [showUserMenu, setShowUserMenu] = useState(false);
-
+  const location = useLocation();
+  const navigate = useNavigate();
   const userMenu = useRef(null)
 
   const handleLogOut = async () => {
     await fetch(`${import.meta.env.VITE_APP_URL}logOut`, {
-      method: 'POST'});
+      method: 'POST', credentials: 'include', 
+      headers: {
+        'Content-Type': 'application/json',
+      }},
+     );
     setUser(null);
+
+    const currentUrl = location.pathname;
+    if (currentUrl.includes('builds')) {
+      navigate('/');
+    }
   }
 
 
@@ -19,8 +30,6 @@ const Header = ( {handleSignUp, user, setUser, handleDeleteAccount}) => {
   
     if (userMenu.current && e.target !== userMenu.current && !userMenu.current.contains(e.target)) 
     {
-      console.log(userMenu.current)
-      console.log('closing the menu')
       setShowUserMenu(false);
     }
   };
@@ -35,8 +44,9 @@ const Header = ( {handleSignUp, user, setUser, handleDeleteAccount}) => {
         {user ? 
          <div style = { {position: 'absolute', bottom: '1.5rem', right: '2rem', display:'flex', gap: '0.8rem', alignItems:'center' }} onClick={() => setShowUserMenu(!showUserMenu)}>
           <Avatar sx={{ bgcolor: '#BFBFBD', height: '37px', width: '37px', cursor: 'pointer', color: '#141823', alignItems: 'center', outline: '2px solid white' }}>{user.username[0]}</Avatar>
-          {showUserMenu &&   
-          <UserMenu user={user} handleLogOut={handleLogOut} menuRef={userMenu} handleDeleteAccount={handleDeleteAccount}/> }
+          { showUserMenu 
+          &&   
+          <UserMenu user={user} handleLogOut={handleLogOut} menuRef={userMenu} handleDeleteAccount={handleDeleteAccount} setUser={setUser} setShowUserMenu={setShowUserMenu}/> }
         
        </div> 
         :

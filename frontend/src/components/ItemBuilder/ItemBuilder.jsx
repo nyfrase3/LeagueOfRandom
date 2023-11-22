@@ -8,7 +8,7 @@ import Stats from '../Stats';
 import ChampionNames from '../Ramdomizer/ChampionNames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark} from '@fortawesome/free-solid-svg-icons';
-import AddItemForm from './AddItemForm';
+
 
 const shuffleArray = array => {
   for (let i = array.length - 1; i > 0; i--) {
@@ -199,7 +199,7 @@ const handleAddBuild = () => {
   if (newBody.stats.cost && typeof newBody.stats.cost == 'string') {
     newBody.stats.cost = +(newBody.stats?.cost?.replace(',', ''))
   };
-  console.log(user.username)
+
   fetch(`${import.meta.env.VITE_APP_URL}saveBuild`, {
     method: 'POST',
     headers: {
@@ -211,7 +211,7 @@ const handleAddBuild = () => {
     return res.json();
   }
 }).then(json => {
-  console.log(json)
+
   if (json.error){
     setBuildMsg({error: json.error})
   } else {
@@ -252,8 +252,12 @@ const handleAddBuild = () => {
         </div>
       
       </div>
-    <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center', gap: '1rem'}}>
-    {
+    <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', gap: '1rem', marginTop: '1rem'}}>
+    
+      <div>
+      <Stats items={currentBuild} wide = {true} buildStatsRef={buildStatsRef} />
+      </div>
+      {
       error && 
       
         <div className='err-div' style ={{ outline: '3px solid #FF4500', padding: '0px 1.5rem', cursor: 'pointer'}} onClick={()=> setError('')}>
@@ -262,9 +266,6 @@ const handleAddBuild = () => {
         </div>
        
     }
-      <div>
-      <Stats items={currentBuild} wide = {true} buildStatsRef={buildStatsRef} />
-      </div>
 
     </div>
     <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', alignItems:'center' }}>
