@@ -3,7 +3,7 @@ import {Table, TableRow, TableBody, TableCell, TableContainer, TableHead, Paper 
 import Item from './components/Item'
 import { statsMap } from './stats'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faCheck } from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -66,6 +66,9 @@ const BuildsTable = ({builds, deleteBuild }) => {
           User
         </TableCell>
         <TableCell >
+         Random
+        </TableCell>
+        <TableCell >
           Date Created
         </TableCell>
         
@@ -108,14 +111,21 @@ const BuildsTable = ({builds, deleteBuild }) => {
           
          
               )}
-              <TableCell  component="th" scope="row" className="table-name" align="center" >
+                   <TableCell  component="th" scope="row" className="table-name" align="center" >
                    {build.username}
+          
+              </TableCell>
+               <TableCell component="th" scope="row" className="table-name" align="center" >
+                   {
+                    build.random ? <FontAwesomeIcon icon={faCheck} /> : ''
+                   }
           
               </TableCell>
               <TableCell component="th" scope="row" className="table-name" align="center" >
                    {formatTimeStamp(build.date_created)}
           
               </TableCell>
+        
           
           
 

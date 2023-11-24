@@ -13,6 +13,7 @@ import Stats from '../Stats';
 
 function Randomizer({user}) {
 
+
   const [champion, setChampion] = useState(null);
   const [type, setType] = useState('ALL');
   const [classState, setClassState] = useState('ALL');
@@ -23,7 +24,8 @@ function Randomizer({user}) {
   const [mainStat, setMainStat] = useState("ALL");
   const [none, setNone ] = useState(false);
   const [all, setAll] = useState(true);
-  
+  const [saveMsg, setSaveMsg] = useState('');
+  console.log(saveMsg)
   const [subStats, setSubStats] = useState({
     health: true,
     percentattackspeed: true,
@@ -72,6 +74,27 @@ function Randomizer({user}) {
       champion: champion.name,
       random: 'true'
     };
+    console.log(newBody)
+
+    fetch(`${import.meta.env.VITE_APP_URL}saveBuild`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      }, body: JSON.stringify(newBody),
+      credentials: 'include'
+  }).then(res => {
+    if (res.ok){
+      return res.json();
+    }
+  }).then(json => {
+  
+    if (json.error){
+      setSaveMsg(json)
+    } else {
+      setSaveMsg(json);
+    }
+  
+  })
   }
 
   useEffect(()=> {
@@ -103,12 +126,19 @@ function Randomizer({user}) {
           :
           null
         }
-        <div style={{ display: 'flex', gap: '3px'}}>
+        <div style={{ display: 'flex', gap: '3px', position: 'relative', cursor: 'pointer'}} onClick={() => setSaveMsg('')}>
         <button className='random-btn' onClick={getRandom}>Randomize</button>
         {
           user && champion &&  
-          <button className='random-btn' onClick={()=> {}}>Save Build</button>
+          <button className='random-btn' onClick={saveBuild}>Save Build</button>
         }
+        
+          <div style={{ position: 'absolute', bottom: '-23px', left: '20px'}}>
+        {
+          saveMsg &&  saveMsg.success ? <div>{saveMsg.success}</div> : <div>{saveMsg.error}</div>
+          }
+          </div>
+        
         </div>
         </div>
         <div className='last-flex'>

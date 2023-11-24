@@ -49,7 +49,7 @@ const Stats = ({items, wide = false, buildStatsRef = null, setBuildStats}) => {
     
             })
         });
-        // console.log(totalBuildStats)
+    
         if (buildStatsRef) {
             buildStatsRef.current = totalBuildStats;
         }
