@@ -165,14 +165,16 @@ const handleRemoveClose = (action) => {
 
   setShowRemove(false) 
   if (action == 'cancel') return;
+  if (action == 'remove') {
+    const copy = [...currentBuild];
+    const indexToRemove = currentBuild.findIndex(i => i.id == itemToRemove.current.id);
+  
+    const newBuild = [...currentBuild.slice(0, indexToRemove), ...currentBuild.slice(indexToRemove + 1), {id: nullId.current}];
+  
+    nullId.current = nullId.current - 1;
+    setCurrentBuild(newBuild);
+  }
 
-  const copy = [...currentBuild];
-  const indexToRemove = currentBuild.findIndex(i => i.id == itemToRemove.current.id);
-
-  const newBuild = [...currentBuild.slice(0, indexToRemove), ...currentBuild.slice(indexToRemove + 1), {id: nullId.current}];
-
-  nullId.current = nullId.current - 1;
-  setCurrentBuild(newBuild);
 
   
 }
