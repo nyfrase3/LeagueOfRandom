@@ -3,18 +3,23 @@ import {Table, TableRow, TableBody, TableCell, TableContainer, TableHead, Paper 
 import Item from './components/Item'
 import { statsMap } from './stats'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faCheck, faPen } from '@fortawesome/free-solid-svg-icons';
 
 
 
-const BuildsTable = ({builds, deleteBuild }) => {
-  const [showToolTip, setShowToolTip] = useState(false);
+const BuildsTable = ({builds, deleteBuild, editBuild }) => {
   const [showDeleteBuild, setShowDeleteBuild] = useState(false);
+  const [showEditBuild, setShowEditBuild] = useState(false)
   const [selectedId, setSelectedId] = useState(null);
 
   const handleDelete = (id) => {
-    console.log(id)
+
     setShowDeleteBuild(true);
+    setSelectedId(id);
+  }
+
+  const handleEdit = (id) => {
+    setShowEditBuild(true);
     setSelectedId(id);
   }
 
@@ -95,7 +100,6 @@ const BuildsTable = ({builds, deleteBuild }) => {
 
 
                 <TableCell component="th" scope="row" className="table-name" align="center" style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', outline: 'none', minHeight: '74px'}}>
-                  {/* <h4 style={{margin: '0', padding: '0'}}>{build.champion}</h4> */}
                   <span>{build.champion}</span>
                 <img src={`/champions/${(build.champion).replaceAll(/['\s]/g, '')}.jpg`} alt={build.champion } style={{ height: '60px', width: '60px'}} />
               </TableCell>
@@ -127,7 +131,17 @@ const BuildsTable = ({builds, deleteBuild }) => {
               </TableCell>
         
           
-          
+              <td style={{ position: 'fixed', right: '5.5vw', width: '5vw', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '10px' }} > 
+            <FontAwesomeIcon icon={faPen} onClick={() => handleEdit(build.id)} style={{fontSize: '2.35rem', cursor: 'pointer'}} className='trash-icon'/>
+
+            {
+              showEditBuild && build.id == selectedId  && 
+              <>
+              <span style={{ fontSize: '0.7rem', width: 'fit-content', margin: '15px 0px 10px 0px', backgroundColor: '#cccccc', padding: '0px 5px', borderRadius: '8px', fontWeight: '700', color: 'rgb(203, 20, 20)' }} className='build-btn' onClick={ ()=> { editBuild(selectedId); setShowEditBuild(false)}}>edit</span> 
+              <span style={{ fontSize: '0.7rem', width: 'fit-content', backgroundColor: '#cccccc', padding: '0px 5px', borderRadius: '8px', fontWeight: '700' }}  onClick={ ()=> setShowEditBuild(false)} className='build-btn'>cancel</span>
+              </>
+            }
+            </td>
 
             </TableRow>
 

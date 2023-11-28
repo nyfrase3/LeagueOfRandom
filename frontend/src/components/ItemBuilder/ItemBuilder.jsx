@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react'
 import {Table, TableRow, TableBody, TableCell, TableContainer, TableHead, Paper } from '@mui/material'
-import {statsMap} from '../../stats'
+import { useParams } from 'react-router-dom';
 import ItemsTable from './ItemsTable';
 import ItemFilters from './ItemFilters'
 import Build from '../Build';
@@ -8,6 +8,7 @@ import Stats from '../Stats';
 import ChampionNames from '../Ramdomizer/ChampionNames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark} from '@fortawesome/free-solid-svg-icons';
+import SearchBar from './SearchBar';
 
 
 const shuffleArray = array => {
@@ -29,14 +30,14 @@ function getBuildFromStorage  () {
 }
 
 const ItemBuilder = ({user}) => {
-
+  const {buildId} = useParams();
   const [allItems, setAllItems] = useState([]);
   const [showOnly, setShowOnly] = useState('all');
   const [filteredItems, setFilteredItems] = useState([]);
   const [sortBy, setSortBy] = useState({ field: 'name', order: 'desc'} );
   const [showZero, setShowZero] = useState(true);
   const [zeroError, setZeroError] = useState('')
-  const [champion, setChampion] = useState('');
+  const [champion, setChampion] = useState(buildId ? localStorage.getItem('champion') : '');
   const [buildMsg, setBuildMsg] = useState({
     error:'',
   });
@@ -76,6 +77,14 @@ const ItemBuilder = ({user}) => {
         setFilteredItems(json)
       })
     }, []);
+
+    useEffect( ()=> {
+      if (!buildId) {
+        localStorage.setItem('champion', '');
+        setChampion('')
+      }
+ 
+    }, [buildId])
 
 
     useEffect(()=> {
@@ -121,8 +130,6 @@ const ItemBuilder = ({user}) => {
       sortByField(currentField, sortBy.order, copy);
       setFilteredItems(copy);
     }
-    
-    
 }
 
   const handleSortChange = (e, val) => {
@@ -202,25 +209,49 @@ const handleAddBuild = () => {
     newBody.stats.cost = +(newBody.stats?.cost?.replace(',', ''))
   };
 
-  fetch(`${import.meta.env.VITE_APP_URL}saveBuild`, {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    }, body: JSON.stringify(newBody),
-    credentials: 'include'
-}).then(res => {
-  if (res.ok){
-    return res.json();
+  if (!buildId) { //we are saving a new build
+    fetch(`${import.meta.env.VITE_APP_URL}saveBuild`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      }, body: JSON.stringify(newBody),
+      credentials: 'include'
+  }).then(res => {
+    if (res.ok){
+      return res.json();
+    }
+  }).then(json => {
+  
+    if (json.error){
+      setBuildMsg({error: json.error})
+    } else {
+      setBuildMsg(json);
+    }
+  
+  });
+  } else { // we are at build/:buildId and we are editing an existing build
+    console.log('We are going to edit a build');
+    console.log(newBody)
+    fetch(`${import.meta.env.VITE_APP_URL}editBuild/${buildId}`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      }, body: JSON.stringify(newBody),
+      credentials: 'include'
+  }).then(res => {
+    if (res.ok){
+      return res.json();
+    }
+  }).then(json => {
+  
+    if (json.error){
+      setBuildMsg({error: json.error})
+    } else {
+      setBuildMsg(json);
+    }
+  
+  })
   }
-}).then(json => {
-
-  if (json.error){
-    setBuildMsg({error: json.error})
-  } else {
-    setBuildMsg(json);
-  }
-
-})
 
   };
 
@@ -228,9 +259,6 @@ const handleAddBuild = () => {
     setCurrentBuild(newEmptyBuild);
     nullId.current = -6;
   };
-
-
-
 
 
   return (
@@ -246,11 +274,11 @@ const handleAddBuild = () => {
         {
           buildMsg.error ? 
            <span style={{position: 'absolute', fontSize: '0.85rem', bottom: '0', color: '#FF4500', cursor: 'pointer'}} onClick={() => setBuildMsg({})}> <FontAwesomeIcon icon={faCircleXmark} style={{paddingRight: '5px'}}/>
-          {buildMsg.error}</span> : <span style={{position: 'absolute', fontSize: '0.85rem', bottom: '0' }}>{buildMsg.success} </span>
+          {buildMsg.error}</span> : <span style={{position: 'absolute', fontSize: '0.85rem', bottom: '0' }} onClick={() => setBuildMsg({})} >{buildMsg.success} </span>
           }
        
         <button onClick={clearBuild} style={{ }} disabled={currentBuild.every(i => i.id <= 0)}>Clear Build</button>
-         <button onClick={handleAddBuild} style={{ }} disabled={!isBuildFull}>Add Build</button>
+         <button onClick={handleAddBuild} style={{ }} disabled={!isBuildFull}>{buildId ? 'Edit Build': 'Add Build'}</button>
         </div>
       
       </div>
@@ -287,8 +315,9 @@ const handleAddBuild = () => {
     </div>
     </div>
     </div>
+
     <ItemsTable items={filteredItems} showOnly={showOnly} sortBy={sortBy}  handleSortChange={handleSortChange} tableRef={tableRef} currentBuild={currentBuild} setCurrentBuild={setCurrentBuild} setError={setError}/> 
-    
+ 
   </div>
   )
 };

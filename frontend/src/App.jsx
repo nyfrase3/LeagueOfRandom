@@ -68,6 +68,7 @@ useEffect( ()=> {
        <Routes>
           <Route path='/' element={ <Randomizer user={user}/> } />
           <Route path='/build' element={ <ItemBuilder  user={user} /> } />
+          <Route path='/build/:buildId' element={ <ItemBuilder  user={user} /> } />
           <Route path='/about' element={ <About / > } />
           <Route path='/builds/:username' element={ <UserBuilds user={user}/> }/>
           <Route path='*' element={ <Randomizer /> } />
