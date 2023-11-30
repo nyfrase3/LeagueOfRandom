@@ -16,9 +16,9 @@ const ItemsTable = ({items, handleSortChange, sortBy, tableRef, currentBuild, se
     const [open, setOpen] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
     const selectedItemRef = useRef();
-    const firstEmptySlot = useRef(0);
+    const firstEmptySlot = useRef();
 
-    const addItemIfShould = (item) => {
+    const addItemIfShould = () => {
      
         const buildCopy = [...currentBuild.slice(0, firstEmptySlot.current), selectedItemRef.current, ...currentBuild.slice(firstEmptySlot.current + 1)];
         setCurrentBuild(buildCopy);
@@ -73,7 +73,7 @@ const ItemsTable = ({items, handleSortChange, sortBy, tableRef, currentBuild, se
 
         } else if (value == 'add'){ //value must equal 'add' 
             //setSelectedId(id);
-            addItemIfShould(selectedItemRef.current);
+            addItemIfShould();
   
         }
       };

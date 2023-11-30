@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react'
 
 
 const Champion = ({champion}) => {
-  console.log(champion)
     const nameEdited = (champion.name).replaceAll(/['\s]/g, '');
     const imgUrl = `/champions/${nameEdited}.jpg`;
     

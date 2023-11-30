@@ -51,7 +51,7 @@ const ItemBuilder = ({user}) => {
 
   const itemToRemove = useRef(null);
 
-  const nullId = useRef(-6)
+  // const nullId = useRef(-6)
 
 
   const tableRef = useRef(null);
@@ -173,12 +173,24 @@ const handleRemoveClose = (action) => {
   setShowRemove(false) 
   if (action == 'cancel') return;
   if (action == 'remove') {
-    const copy = [...currentBuild];
+    // const copy = [...currentBuild];
     const indexToRemove = currentBuild.findIndex(i => i.id == itemToRemove.current.id);
   
-    const newBuild = [...currentBuild.slice(0, indexToRemove), ...currentBuild.slice(indexToRemove + 1), {id: nullId.current}];
+    const newBuild = [...currentBuild.slice(0, indexToRemove)];
+    let hasFoundFirstEmpty = false;
+    for (let i = indexToRemove + 1; i < currentBuild.length; i++){
+      if(currentBuild[i].id > 0){
+        newBuild.push(currentBuild[i])
+      } else {
+        if (!hasFoundFirstEmpty) {
+          i--;
+          hasFoundFirstEmpty = true;
+        }
+        newBuild.push(newEmptyBuild[i]);
+      }
+    }
   
-    nullId.current = nullId.current - 1;
+    // nullId.current = nullId.current - 1;
     setCurrentBuild(newBuild);
   }
 
@@ -230,8 +242,7 @@ const handleAddBuild = () => {
   
   });
   } else { // we are at build/:buildId and we are editing an existing build
-    console.log('We are going to edit a build');
-    console.log(newBody)
+
     fetch(`${import.meta.env.VITE_APP_URL}editBuild/${buildId}`, {
       method: 'POST',
       headers: {
@@ -257,7 +268,7 @@ const handleAddBuild = () => {
 
   const clearBuild = () => {
     setCurrentBuild(newEmptyBuild);
-    nullId.current = -6;
+    // nullId.current = -6;
   };
 
 
@@ -277,12 +288,12 @@ const handleAddBuild = () => {
           {buildMsg.error}</span> : <span style={{position: 'absolute', fontSize: '0.85rem', bottom: '0' }} onClick={() => setBuildMsg({})} >{buildMsg.success} </span>
           }
        
-        <button onClick={clearBuild} style={{ }} disabled={currentBuild.every(i => i.id <= 0)}>Clear Build</button>
-         <button onClick={handleAddBuild} style={{ }} disabled={!isBuildFull}>{buildId ? 'Edit Build': 'Add Build'}</button>
+        <button onClick={clearBuild}  disabled={currentBuild.every(i => i.id <= 0)}>Clear Build</button>
+         <button onClick={handleAddBuild}  disabled={!isBuildFull}>{buildId ? 'Edit Build': 'Add Build'}</button>
         </div>
       
       </div>
-    <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', gap: '1rem', marginTop: '1rem'}}>
+    <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', gap: '1rem', marginTop: '1rem', position: 'relative'}}>
     
       <div>
       <Stats items={currentBuild} wide = {true} buildStatsRef={buildStatsRef} />
@@ -290,7 +301,7 @@ const handleAddBuild = () => {
       {
       error && 
       
-        <div className='err-div' style ={{ outline: '3px solid #FF4500', padding: '0px 1.5rem', cursor: 'pointer'}} onClick={()=> setError('')}>
+        <div className='err-div' style ={{ outline: '3px solid #FF4500', padding: '0px 1.5rem', cursor: 'pointer', position: 'absolute', bottom: '1rem'}} onClick={()=> setError('')}>
         <p>{error}
         </p>
         </div>

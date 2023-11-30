@@ -25,7 +25,6 @@ function Randomizer({user}) {
   const [none, setNone ] = useState(false);
   const [all, setAll] = useState(true);
   const [saveMsg, setSaveMsg] = useState('');
-  console.log(saveMsg)
   const [subStats, setSubStats] = useState({
     health: true,
     percentattackspeed: true,
@@ -74,7 +73,6 @@ function Randomizer({user}) {
       champion: champion.name,
       random: 'true'
     };
-    console.log(newBody)
 
     fetch(`${import.meta.env.VITE_APP_URL}saveBuild`, {
       method: 'POST',
@@ -98,7 +96,6 @@ function Randomizer({user}) {
   }
 
   useEffect(()=> {
-    console.log(buildStatsRef.current)
     Object.values( (k, v) => console.log(`${k}: ${v}`) );
   }, [buildStatsRef.current])
 

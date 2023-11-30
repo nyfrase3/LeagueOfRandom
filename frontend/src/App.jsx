@@ -12,7 +12,7 @@ import UserBuilds from './components/User/UserBuilds'
 
 
 const App = () => {
-// console.log(import.meta.env.VITE_APP_URL);
+
 const [showModal, setShowModal] = useState(false)
 const [user, setUser] = useState(null);
 const modalType = useRef(null);

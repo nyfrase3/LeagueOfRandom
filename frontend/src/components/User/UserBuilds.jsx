@@ -8,10 +8,8 @@ const UserBuilds = ({user}) => {
     const navigate = useNavigate();
     const {username} = params;
     const buildIdToEdit = useRef();
-    console.log(builds)
 
     const handleDeleteBuild = (buildId) => {
-        console.log(buildId + ' is the build id to delete!');
         fetch(`${import.meta.env.VITE_APP_URL}builds/${buildId}`, {
             method: 'DELETE',
             credentials: 'include',
@@ -19,7 +17,6 @@ const UserBuilds = ({user}) => {
                 'Content-Type': 'application/json',
               }
         }).then(res => res.json()).then(json => {
-            console.log(json)
             if (json.success) {
                 const newBuilds = builds.filter( build => build.id !== buildId);
                 setBuilds(newBuilds);
@@ -32,7 +29,6 @@ const UserBuilds = ({user}) => {
         const buildToEdit = builds.find(build => build.id == buildId);
         if (buildToEdit) {
             const itemsToEdit = buildToEdit.items;
-            console.log(itemsToEdit)
             localStorage.setItem('build', JSON.stringify(itemsToEdit));
             localStorage.setItem('champion', buildToEdit.champion);
             navigate(`/build/${buildId}`);

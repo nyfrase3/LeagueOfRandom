@@ -18,7 +18,6 @@ const SearchBar = ({items, addItem, selectedItem}) => {
 
   const handleItemClick = (e, item) => {
     e.stopPropagation();
-    console.log(item)
     selectedItem.current = item;
     addItem(e, item);
   }
@@ -38,13 +37,13 @@ const SearchBar = ({items, addItem, selectedItem}) => {
 
   return (
     <div style={{ marginLeft: '1rem', position: 'relative'}} ref={searchResRef}>
-        <input type='text' placeholder='search items' value={searchInput} onChange={(e) => onChange(e)} onFocus={() => setShowSearchResults(true)}/>
+        <input type='text' placeholder='search items' value={searchInput} onChange={(e) => onChange(e)} onFocus={() => setShowSearchResults(true)} style={{ backgroundColor: '#141823', padding: '4px 5px', borderRadius: '5px'}}/>
         {
           showSearchResults && 
-          <ul style={{ zIndex: '1000', position: 'absolute', backgroundColor: '#F7F4EF'}} >
+          <ul style={{ zIndex: '1000', position: 'absolute', backgroundColor: '#F7F4EF', display: 'flex', flexDirection: 'column', gap: '3px', width: '183px'}} >
             {
               searchResults.map( item => 
-                <li onClick={e => handleItemClick(e, item)} style={{cursor: 'pointer'}} key={item.name}>{item.name}</li>
+                <li onClick={e => handleItemClick(e, item)} style={{cursor: 'pointer', lineHeight: '1.75rem'}} key={item.name} className='search-res'>{item.name}</li>
               )
             }
           </ul>

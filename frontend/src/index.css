@@ -535,3 +535,9 @@ div.err-div:hover {
  .trash-icon {
   font-size: 1.35rem !important;
 }
+
+
+.search-res:hover {
+  background-color: #e0dede;
+}
+
