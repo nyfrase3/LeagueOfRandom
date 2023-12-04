@@ -12,7 +12,7 @@ const Build = ({items = [{id: 0}, {id: -1}, {id: -2}, {id: -3}, {id: -4}, {id: -
         <div className='build-flex' >
       
         {items?.map(item => 
-            <div style={{  backgroundColor: '#F7F4EF'}} key={item.id} onClick={()=> handleItemClick(item)}>
+            <div style={{  backgroundColor: '#F7F4EF'}} key={item.id} onClick={handleItemClick ? ()=> handleItemClick(item) : null}>
             <Item item={item} />
             </div>
            

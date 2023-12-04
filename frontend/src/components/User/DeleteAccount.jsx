@@ -27,8 +27,6 @@ const DeleteAccount = ({closeModal, user, setUser }) => {
 
     const handleSubmit = (e) => {
         payload.password = password;
-        console.log(payload)
-        console.log('submit')
         fetch(`${import.meta.env.VITE_APP_URL}deleteAccount`, {
             method: 'POST',
             credentials: 'include',
@@ -37,7 +35,6 @@ const DeleteAccount = ({closeModal, user, setUser }) => {
               },
               body: JSON.stringify(payload)
         }).then(res => res.json()).then(json => {
-            console.log(json)
             if (json.errorMessage) {
                 setError(json.errorMessage)
             } else {

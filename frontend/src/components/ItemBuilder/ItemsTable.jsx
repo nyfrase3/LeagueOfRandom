@@ -2,6 +2,7 @@ import React, {useState, useEffect, useRef} from 'react'
 import {Table, TableRow, TableBody, TableCell, TableContainer, TableHead, Paper } from '@mui/material'
 import {statsMap} from '../../stats'
 import AddItemMenu from './AddItemMenu'
+import SearchBar from './SearchBar';
 
 const gradiantTop = 'linear-gradient( 0deg, hsl(281deg 40% 30%) 53%, hsl(296deg 41% 31%) 78%, hsl(309deg 44% 33%) 87%, hsl(318deg 49% 37%) 91%, hsl(325deg 52% 41%) 94%, hsl(332deg 54% 44%) 96%, hsl(337deg 55% 48%) 97%, hsl(343deg 58% 52%) 98%, hsl(349deg 65% 56%) 98%, hsl(355deg 73% 60%) 98%, hsl(2deg 81% 62%) 99%, hsl(9deg 89% 62%) 99%, hsl(16deg 95% 61%) 99%, hsl(22deg 99% 60%) 99%, hsl(28deg 100% 58%) 100%, hsl(34deg 100% 55%) 100%, hsl(40deg 100% 50%) 100%);';
 
@@ -15,15 +16,13 @@ const ItemsTable = ({items, handleSortChange, sortBy, tableRef, currentBuild, se
     const [open, setOpen] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
     const selectedItemRef = useRef();
-    const firstEmptySlot = useRef(0);
+    const firstEmptySlot = useRef();
 
-    const addItemIfShould = (item) => {
-
+    const addItemIfShould = () => {
      
         const buildCopy = [...currentBuild.slice(0, firstEmptySlot.current), selectedItemRef.current, ...currentBuild.slice(firstEmptySlot.current + 1)];
         setCurrentBuild(buildCopy);
         setError('')
-        window.scrollTo(0, 100)
       
     }
 
@@ -37,18 +36,18 @@ const ItemsTable = ({items, handleSortChange, sortBy, tableRef, currentBuild, se
           firstEmptySlot.current = firstEmptyIndex;
           if (firstEmptyIndex == -1) {//THERE ARE NO EMPTY SLOTS: DO SOMETHING ELSE 
             setError("You ran out of space!");
-            window.scrollTo(0, 100)
+            // window.scrollTo(0, 100)
             return;
           }
           if (currentBuild.find( i => item.id == i.id)) { //if the item is already in the build
             setError('This item is already added to this build.')
-            window.scrollTo(0, 100)
+            // window.scrollTo(0, 100)
             return;
             
           } if (item.hasOwnProperty('boots')) { //if the item we are trying to add is a boot, we need to check to see if we have any other boots already included first
             if (currentBuild.some(i => i.hasOwnProperty('boots'))){
                setError('You already got a pair of boots.');
-               window.scrollTo(0, 100)
+              //  window.scrollTo(0, 100)
                return;
             }
           }
@@ -56,7 +55,7 @@ const ItemsTable = ({items, handleSortChange, sortBy, tableRef, currentBuild, se
        
             if (currentBuild.some(i => i.hasOwnProperty('mythic'))) {
               setError('You can only have one mythic item.');
-              window.scrollTo(0, 100)
+              // window.scrollTo(0, 100)
               return;
             }
           }
@@ -74,14 +73,14 @@ const ItemsTable = ({items, handleSortChange, sortBy, tableRef, currentBuild, se
 
         } else if (value == 'add'){ //value must equal 'add' 
             //setSelectedId(id);
-            addItemIfShould(selectedItemRef.current);
+            addItemIfShould();
   
         }
       };
     
   return (
-    <div >
-
+    <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}}>
+      <SearchBar items={items} selectedItem={selectedItemRef} addItem={handleRowClick}/>
     <TableContainer component={Paper} className='data-table' style={{backgroundColor: '#141823', marginTop: '2rem'}} sx={{  
       fontSize: '40px', 
     
@@ -99,7 +98,7 @@ const ItemsTable = ({items, handleSortChange, sortBy, tableRef, currentBuild, se
   ref={tableRef}
   >
 
-    <Table aria-label="simple table" stickyHeader sx={{position: 'relative' }}
+    <Table aria-label="simple table" stickyHeader sx={{position: 'relative'}}
      > 
       <TableHead className='table-header' >
        

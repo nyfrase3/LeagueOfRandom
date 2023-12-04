@@ -62,7 +62,6 @@ const SignUp = ({closeModal, setUser, type}) => {
             })
 
             const json = await res.json();
-            console.log(json)
             if (json.successMessage) {
                 setUser(json.user)
                 closeModal();
@@ -78,7 +77,7 @@ const SignUp = ({closeModal, setUser, type}) => {
     <>
     <div className='modal-backdrop' onClick={closeModal} style={{zIndex: '900'}}></div>
 
-    <Container component="main" maxWidth="xs" style={{backgroundColor: '#F7F4EF', color: '#F7F4EF', position: 'absolute', padding: '1.5rem 2rem 2.5rem 2rem', borderRadius: '10px', top: '5rem', left: '50%', width: '444px',
+    <Container component="main" style={{backgroundColor: '#F7F4EF', color: '#F7F4EF', position: 'absolute', padding: '1.5rem 0 2rem 0', borderRadius: '10px', top: '5rem', left: '50%', width: '420px',
     marginLeft: '-222px', overflow: 'visible', zIndex: '9999'}}>
            <Typography component="h1" variant="h5" style={{color: '#0b0b0b', fontSize: '1.6rem', fontWeight: '600'}}>
             {type}
@@ -88,9 +87,9 @@ const SignUp = ({closeModal, setUser, type}) => {
                   signUpError && 
                  <span style= {{color: '#141823', position: 'absolute', left: '30px', fontSize: '0.75rem', lineHeight: '14px'}}>{signUpError}</span>
                 }
-          <Box component="form" noValidate onSubmit={ e => handleSubmit(e)} sx={{ mt: 3 }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+          <Box component="form" noValidate onSubmit={ e => handleSubmit(e)} sx={{ mt: 5 }}>
+            <Grid container spacing={2} style={{flexDirection: 'column', alignItems: 'center'}}>
+              <Grid item sm={10}>
                 <TextField
                   autoComplete="none"
                   name="username"   
@@ -107,7 +106,7 @@ const SignUp = ({closeModal, setUser, type}) => {
                 />
               </Grid>
             
-              <Grid item xs={12} sm={6} style={{position: "relative"}}>
+              <Grid item sm={10} style={{position: "relative"}}>
                 <TextField
                   required
                   fullWidth

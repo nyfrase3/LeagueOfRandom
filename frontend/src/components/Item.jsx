@@ -50,7 +50,7 @@ const Item = ({item}) => {
     <div className= { isEmpty ? 'empty-item item' : 'full-item item'}  onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} style={{display: 'flex', flexDirection: 'column', justifyItems: 'space-between' }}>
      { !isEmpty && 
      
-      <h6 style={{textOverflow: 'ellipsis', overflow: 'hidden', width: '127px', marginTop: '7px', fontSize: '0.8rem'}}>{item.name}</h6> }
+      <h6 style={{textOverflow: 'ellipsis', overflow: 'hidden', width: '127px', marginTop: '7px', fontSize: '0.8rem', whiteSpace: 'nowrap'}}>{item.name}</h6> }
 
         <div className='img-cont' style= {{height:   !isEmpty ? '105px' : '127px', width: '127px'}}>
         {

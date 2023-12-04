@@ -9,12 +9,10 @@ const ChampionFilters = ({type, setType, classState, setClassState}) => {
   
 
     const handleTypeChange = (e) => {
-        console.log(e.target.value)
         setType(e.target.value); 
     }
 
     const handleClassChange = (e) => {
-        console.log(e.target.value)
         setClassState(e.target.value);
     }
 

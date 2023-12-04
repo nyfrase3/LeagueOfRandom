@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react'
 import {Table, TableRow, TableBody, TableCell, TableContainer, TableHead, Paper } from '@mui/material'
-import {statsMap} from '../../stats'
+import { useParams } from 'react-router-dom';
 import ItemsTable from './ItemsTable';
 import ItemFilters from './ItemFilters'
 import Build from '../Build';
@@ -8,6 +8,7 @@ import Stats from '../Stats';
 import ChampionNames from '../Ramdomizer/ChampionNames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark} from '@fortawesome/free-solid-svg-icons';
+import SearchBar from './SearchBar';
 
 
 const shuffleArray = array => {
@@ -29,14 +30,14 @@ function getBuildFromStorage  () {
 }
 
 const ItemBuilder = ({user}) => {
-
+  const {buildId} = useParams();
   const [allItems, setAllItems] = useState([]);
   const [showOnly, setShowOnly] = useState('all');
   const [filteredItems, setFilteredItems] = useState([]);
   const [sortBy, setSortBy] = useState({ field: 'name', order: 'desc'} );
   const [showZero, setShowZero] = useState(true);
   const [zeroError, setZeroError] = useState('')
-  const [champion, setChampion] = useState('');
+  const [champion, setChampion] = useState(buildId ? localStorage.getItem('champion') : '');
   const [buildMsg, setBuildMsg] = useState({
     error:'',
   });
@@ -50,7 +51,7 @@ const ItemBuilder = ({user}) => {
 
   const itemToRemove = useRef(null);
 
-  const nullId = useRef(-6)
+  // const nullId = useRef(-6)
 
 
   const tableRef = useRef(null);
@@ -76,6 +77,14 @@ const ItemBuilder = ({user}) => {
         setFilteredItems(json)
       })
     }, []);
+
+    useEffect( ()=> {
+      if (!buildId) {
+        localStorage.setItem('champion', '');
+        setChampion('')
+      }
+ 
+    }, [buildId])
 
 
     useEffect(()=> {
@@ -121,8 +130,6 @@ const ItemBuilder = ({user}) => {
       sortByField(currentField, sortBy.order, copy);
       setFilteredItems(copy);
     }
-    
-    
 }
 
   const handleSortChange = (e, val) => {
@@ -166,12 +173,24 @@ const handleRemoveClose = (action) => {
   setShowRemove(false) 
   if (action == 'cancel') return;
   if (action == 'remove') {
-    const copy = [...currentBuild];
+    // const copy = [...currentBuild];
     const indexToRemove = currentBuild.findIndex(i => i.id == itemToRemove.current.id);
   
-    const newBuild = [...currentBuild.slice(0, indexToRemove), ...currentBuild.slice(indexToRemove + 1), {id: nullId.current}];
+    const newBuild = [...currentBuild.slice(0, indexToRemove)];
+    let hasFoundFirstEmpty = false;
+    for (let i = indexToRemove + 1; i < currentBuild.length; i++){
+      if(currentBuild[i].id > 0){
+        newBuild.push(currentBuild[i])
+      } else {
+        if (!hasFoundFirstEmpty) {
+          i--;
+          hasFoundFirstEmpty = true;
+        }
+        newBuild.push(newEmptyBuild[i]);
+      }
+    }
   
-    nullId.current = nullId.current - 1;
+    // nullId.current = nullId.current - 1;
     setCurrentBuild(newBuild);
   }
 
@@ -202,35 +221,55 @@ const handleAddBuild = () => {
     newBody.stats.cost = +(newBody.stats?.cost?.replace(',', ''))
   };
 
-  fetch(`${import.meta.env.VITE_APP_URL}saveBuild`, {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    }, body: JSON.stringify(newBody),
-    credentials: 'include'
-}).then(res => {
-  if (res.ok){
-    return res.json();
-  }
-}).then(json => {
+  if (!buildId) { //we are saving a new build
+    fetch(`${import.meta.env.VITE_APP_URL}saveBuild`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      }, body: JSON.stringify(newBody),
+      credentials: 'include'
+  }).then(res => {
+    if (res.ok){
+      return res.json();
+    }
+  }).then(json => {
+  
+    if (json.error){
+      setBuildMsg({error: json.error})
+    } else {
+      setBuildMsg(json);
+    }
+  
+  });
+  } else { // we are at build/:buildId and we are editing an existing build
 
-  if (json.error){
-    setBuildMsg({error: json.error})
-  } else {
-    setBuildMsg(json);
+    fetch(`${import.meta.env.VITE_APP_URL}editBuild/${buildId}`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      }, body: JSON.stringify(newBody),
+      credentials: 'include'
+  }).then(res => {
+    if (res.ok){
+      return res.json();
+    }
+  }).then(json => {
+  
+    if (json.error){
+      setBuildMsg({error: json.error})
+    } else {
+      setBuildMsg(json);
+    }
+  
+  })
   }
-
-})
 
   };
 
   const clearBuild = () => {
     setCurrentBuild(newEmptyBuild);
-    nullId.current = -6;
+    // nullId.current = -6;
   };
-
-
-
 
 
   return (
@@ -246,15 +285,15 @@ const handleAddBuild = () => {
         {
           buildMsg.error ? 
            <span style={{position: 'absolute', fontSize: '0.85rem', bottom: '0', color: '#FF4500', cursor: 'pointer'}} onClick={() => setBuildMsg({})}> <FontAwesomeIcon icon={faCircleXmark} style={{paddingRight: '5px'}}/>
-          {buildMsg.error}</span> : <span style={{position: 'absolute', fontSize: '0.85rem', bottom: '0' }}>{buildMsg.success} </span>
+          {buildMsg.error}</span> : <span style={{position: 'absolute', fontSize: '0.85rem', bottom: '0' }} onClick={() => setBuildMsg({})} >{buildMsg.success} </span>
           }
        
-        <button onClick={clearBuild} style={{ }} disabled={currentBuild.every(i => i.id <= 0)}>Clear Build</button>
-         <button onClick={handleAddBuild} style={{ }} disabled={!isBuildFull}>Add Build</button>
+        <button onClick={clearBuild}  disabled={currentBuild.every(i => i.id <= 0)}>Clear Build</button>
+         <button onClick={handleAddBuild}  disabled={!isBuildFull}>{buildId ? 'Edit Build': 'Add Build'}</button>
         </div>
       
       </div>
-    <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', gap: '1rem', marginTop: '1rem'}}>
+    <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', gap: '1rem', marginTop: '1rem', position: 'relative'}}>
     
       <div>
       <Stats items={currentBuild} wide = {true} buildStatsRef={buildStatsRef} />
@@ -262,7 +301,7 @@ const handleAddBuild = () => {
       {
       error && 
       
-        <div className='err-div' style ={{ outline: '3px solid #FF4500', padding: '0px 1.5rem', cursor: 'pointer'}} onClick={()=> setError('')}>
+        <div className='err-div' style ={{ outline: '3px solid #FF4500', padding: '0px 1.5rem', cursor: 'pointer', position: 'absolute', bottom: '1rem'}} onClick={()=> setError('')}>
         <p>{error}
         </p>
         </div>
@@ -287,8 +326,9 @@ const handleAddBuild = () => {
     </div>
     </div>
     </div>
+
     <ItemsTable items={filteredItems} showOnly={showOnly} sortBy={sortBy}  handleSortChange={handleSortChange} tableRef={tableRef} currentBuild={currentBuild} setCurrentBuild={setCurrentBuild} setError={setError}/> 
-    
+ 
   </div>
   )
 };

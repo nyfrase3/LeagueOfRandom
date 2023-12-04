@@ -79,7 +79,7 @@ app.get('/randomChampion/:name/:type/:classType', async (req, res, next) => {
   if (name == 'ANY') {
     if (type == 'ALL' && classType == 'ALL') { //get a random champion from the pool of ALL champions
       const randomInt = getRandomNumber(1, 165);
-      result = await db.query('SELECT * FROM champions WHERE id = $1', [randomInt])
+      result = await db.query('SELECT * FROM champions ORDER BY RANDOM() LIMIT 1')
     }
     else if (classType == 'ALL'){ //only type has a value
       result = await db.query('SELECT * FROM champions WHERE type = $1 ORDER BY RANDOM() LIMIT 1', [type] );
@@ -230,12 +230,11 @@ async function getLegendaries (mainStat, subStats) {
 };
 
 app.post('/saveBuild', async (req, res, next) => {
-  console.log(req.body);
+
   const {user, build, stats, champion, random} = req.body;
-  console.log(user + ' ' + build + ' ' + stats);
 
   const buildQuery = `INSERT INTO builds ( item1, item2, item3, item4, item5, item6, champion, random, username) VALUES ( ${build[0]}, ${build[1]}, ${build[2]}, ${build[3]}, ${build[4]}, ${build[5]}, '${champion}', ${random}, '${user}') RETURNING id;`;
-  console.log(buildQuery);
+
   let buildId = null;
   try {
     buildId = await db.query(buildQuery);
@@ -261,6 +260,38 @@ app.post('/saveBuild', async (req, res, next) => {
     res.send({success: 'Your build was saved successfully'});
 
   }
+});
+
+app.post('/editBuild/:buildId', async (req, res, next) => {
+  const { buildId } = req.params;
+  console.log(buildId);
+  const buildResult = await db.query('SELECT * FROM builds WHERE id = $1', [buildId]);
+  console.log(buildResult.rows)
+  if (!buildResult.rows.length > 0){
+    return res.send({error: `build with id:${buildId} not found`});
+  } 
+  if ( !req.isAuthenticated()) {
+    return res.send({error: 'You must be logged in to edit a build.'});
+  }
+  const {username} = req.user;
+  if (username != buildResult.rows[0].username) {
+    return res.send({error: `You are not the creator of this build.`});
+  }
+  const { build, stats, champion, random} = req.body;
+  const buildQuery = `UPDATE builds SET item1 = $1, item2 = $2, item3 = $3, item4 = $4, item5 = $5, item6 = $6, champion = $7, random = 'false' WHERE id = ${buildId}`;
+  const updateRes = await db.query(buildQuery, [build[0], build[1], build[2], build[3], build[4], build[5], champion]);
+
+  if (updateRes.rows) {
+    console.log(updateRes.rows);
+    const statsQuery = `UPDATE build_stats SET cost = ${stats.cost}, abilityhaste = ${stats.abilityhaste}, attackdamage = ${stats.attackdamage}, abilitypower = ${stats.abilitypower}, armor = ${stats.armor}, health = ${stats.health}, lethality = ${stats.lethality}, magicpenetration = ${stats.magicpenetration}, magicresist = ${stats.magicresist}, mana = ${stats.mana}, movespeed = ${stats.movespeed}, percentarmorpenetration = ${stats.percentarmorpenetration}, percentattackspeed = ${stats.percentattackspeed}, percentbasehealthregen = ${stats.percentbasehealthregen}, percentbasemanaregen = ${stats.percentbasemanaregen}, percentcriticalstrikechance = ${stats.percentcriticalstrikechance}, percentcriticalstrikedamage = ${stats.percentcriticalstrikedamage}, percenthealandshieldpower = ${stats.percenthealandshieldpower}, percentlifesteal = ${stats.percentlifesteal}, percentmagicpenetration = ${stats.percentarmorpenetration}, percentmovespeed = ${stats.percentmovespeed}, percentomnivamp = ${stats.percentomnivamp}, percenttenacity = ${stats.percenttenacity} WHERE build_id = ${buildId}`;
+    const statsUpdateRes = await db.query(statsQuery);
+    if ( statsUpdateRes.rows) {
+      res.send({success: 'Your build was edited successfully'});
+    }
+
+  }
+
+
 });
 
 app.get('/builds/:username', async (req, res, next) => {
@@ -305,7 +336,6 @@ app.delete('/builds/:buildId', async (req, res, next) => {
     console.log('this user is not authenticated');
     res.send({error: 'you must be logged in to delete content'})
   }
-
 
 });
 
